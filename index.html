@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYTDC | Staten Island Tamil Community</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            deep: '#8D0E17', crimson: '#C71843', red: '#E5485B',
+                            soft: '#EC6A6A', salmon: '#F09173', orange: '#F5B577',
+                            gold: '#F9D889', pale: '#FCF6AA',
+                        }
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        html { scroll-behavior: smooth; }
+        
+        /* SECTION 1 STYLES */
+        .hero-section {
+            position: relative;
+            background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), 
+                        url('heroimage.png'); 
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4);
+            animation: twinkle var(--duration) ease-in-out infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: var(--max-opacity); transform: scale(1.5); }
+        }
+
+        /* Social Icon "Water" Style */
+        .social-link {
+            color: rgba(255, 255, 255, 0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.2));
+        }
+        .social-link:hover {
+            transform: translateY(-5px) scale(1.2);
+            filter: drop-shadow(0 0 12px currentColor);
+        }
+        .social-fb:hover { color: #1877F2; }
+        .social-yt:hover { color: #FF0000; }
+        .social-ig:hover { color: #E4405F; }
+        .social-tk:hover { color: #00f2ea; text-shadow: 2px 0 #ff0050; }
+        .social-li:hover { color: #0077B5; }
+
+        @keyframes navSlideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .nav-entrance {
+            animation: navSlideDown 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .nav-transparent {
+            background-color: transparent !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+        .nav-scrolled {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #FCF6AA !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+        }
+        .glass-menu-pill {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 9999px;
+            padding: 0.5rem 1.5rem;
+        }
+        .nav-link { position: relative; transition: color 0.3s ease; }
+        .nav-transparent .nav-link, .nav-transparent .logo-text, .nav-transparent #mobile-menu-btn { color: white; }
+        .nav-scrolled .nav-link, .nav-scrolled .logo-text, .nav-scrolled #mobile-menu-btn { color: #8D0E17; }
+        .nav-link::after {
+            content: ''; position: absolute; width: 0; height: 2px;
+            bottom: -4px; left: 0; background-color: #F9D889; transition: width 0.3s ease;
+        }
+        .nav-link:hover::after { width: 100%; }
+        
+        @keyframes fadeInUpHero {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-animate { 
+            opacity: 0; 
+            animation: fadeInUpHero 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; 
+        }
+
+        /* SECTION 2 & 3 COMMON */
+        @keyframes growLine { from { width: 0; } to { width: 80px; } }
+        .reveal-line-anim { animation: growLine 1.5s ease-out forwards; }
+        .text-gradient-brand {
+            background: linear-gradient(to right, #8D0E17, #C71843);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        /* SECTION 3: ROADMAP */
+        .roadmap-container {
+            --brand-deep: #8D0E17;
+            --brand-gold: #F9D889;
+            --timeline-gradient: rgba(141, 14, 23, 1) 0%, rgba(141, 14, 23, 1) 50%, rgba(141, 14, 23, 0) 100%;
+            position: relative;
+            background: var(--brand-deep);
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 320px auto;
+            grid-gap: 20px;
+            padding: 40px 10px;
+        }
+
+        .timeline .info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px;
+            color: white;
+            background: #7a0c14;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* --- UPDATED SCROLLABLE TIMELINE --- */
+        .timeline ol {
+            font-size: 0;
+            padding: 350px 0; /* Fallback padding */
+            transition: all 0.5s ease;
+            overflow-x: scroll;
+            display: flex;
+            align-items: center;
+            scrollbar-width: thin;
+            scrollbar-color: #F9D889 transparent;
+            scroll-behavior: smooth;
+        }
+
+        .timeline ol::-webkit-scrollbar { height: 6px; }
+        .timeline ol::-webkit-scrollbar-thumb { background: #F9D889; border-radius: 10px; }
+
+        .timeline ol li {
+            position: relative;
+            display: inline-block;
+            list-style-type: none;
+            width: 220px; /* Slightly wider spacing for years */
+            height: 3px;
+            background: #F9D889;
+            flex-shrink: 0;
+        }
+
+        .timeline ol li:not(:first-child) { margin-left: 20px; }
+        .timeline ol li:last-child { width: 350px; } /* Spacer at the end */
+
+        .timeline ol li:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: calc(100% + 1px);
+            width: 16px;
+            height: 16px;
+            transform: translateY(-50%);
+            border-radius: 50%;
+            background: #F9D889;
+            z-index: 5;
+            box-shadow: 0 0 10px rgba(249, 216, 137, 0.5);
+        }
+
+        .timeline ol li div {
+            position: absolute;
+            left: 30px;
+            width: 300px;
+            padding: 25px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            white-space: normal;
+            z-index: 10;
+        }
+
+        /* Logic for Up/Down zigzag */
+        .timeline ol li:nth-child(odd) div {
+            top: -20px;
+            transform: translateY(-100%);
+        }
+        .timeline ol li:nth-child(even) div {
+            top: 20px;
+        }
+
+        .timeline time {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #8D0E17;
+            margin-bottom: 5px;
+        }
+
+        /* --- MOBILE SCROLLABLE BOXES --- */
+        @media screen and (max-width: 800px) {
+            .timeline { display: block; }
+            .timeline .info { margin-bottom: 30px; }
+            
+            /* Make text boxes scrollable internally on small screens */
+            .timeline ol li div {
+                width: 260px;
+                max-height: 250px; /* Limit height on mobile */
+                overflow-y: auto; /* Enable internal scrolling */
+                padding: 15px;
+            }
+            /* Custom scrollbar for boxes */
+            .timeline ol li div::-webkit-scrollbar { width: 4px; }
+            .timeline ol li div::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        }
+
+        /* Control Arrows */
+        .scroll-controls {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 20;
+        }
+        .arrow-btn {
+            width: 45px; height: 45px;
+            background: var(--brand-gold);
+            color: var(--brand-deep);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.3s;
+        }
+        .arrow-btn:hover { background: white; transform: scale(1.1); }
+
+        .milestone-list { list-style: none; padding: 0; margin-top: 10px; }
+        .milestone-list li {
+            background: transparent !important; height: auto !important; width: 100% !important;
+            margin: 0 !important; padding: 4px 0 4px 15px !important;
+            font-size: 0.85rem !important; color: #4b5563 !important;
+            border-bottom: 1px solid rgba(0,0,0,0.05); position: relative;
+        }
+        .milestone-list li::before {
+            content: "•"; position: absolute; left: 0; color: #8D0E17; font-weight: bold;
+        }
+
+        /* SECTION 4: 3D ACTIVITIES GRID */
+        .activities-grid {
+            perspective: 2000px; /* Creates the 3D depth field */
+        }
+        
+        .activity-card {
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.8s ease;
+        }
+
+        /* The 3D Hover Effect */
+        @media (min-width: 1024px) {
+            .activity-card:hover {
+                transform: rotateY(-10deg) rotateX(5deg) translateZ(30px);
+                box-shadow: 25px 25px 50px rgba(0,0,0,0.2);
+            }
+        }
+
+        .activity-card img {
+            transition: transform 1s ease;
+        }
+
+        .activity-card:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Floating text effect inside the card */
+        .activity-float-content {
+            transform: translateZ(60px); /* Lifts text off the image */
+            backface-visibility: hidden;
+        }
+
+        /* Mobile optimization: reduces intensity for touch */
+        @media (max-width: 1023px) {
+            .activity-card:hover {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* --- SECTION 5: DONATION & DONORS --- */
+        .donate-gradient {
+            background: linear-gradient(135deg, #8D0E17 0%, #C71843 100%);
+        }
+
+        /* Donor Card Animation */
+        .donor-card {
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .donor-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(141, 14, 23, 0.1);
+            border-color: #F9D889;
+        }
+
+        /* PayPal Button Custom Styling */
+        .paypal-btn {
+            background: #ffc439;
+            color: #111;
+            transition: all 0.3s ease;
+        }
+        .paypal-btn:hover {
+            background: #f4b400;
+            transform: scale(1.02);
+        }
+
+        /* Donor Wall Scroll Container */
+        .donor-wall {
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+            
+        /* --- SECTION 6: PREMIUM 3D FOOTER --- */
+        /* --- BRAND-ALIGNED FOOTER STYLES --- */
+        .footer-brand-bg {
+            /* Using the primary brand-deep color for the background */
+            background-color: #8D0E17; /* This represents the 'brand-deep' blue-black */
+            border-top: 4px solid #F9D889; /* The 'brand-gold' accent line */
+            position: relative;
+        }
+
+        .footer-link {
+            color: rgba(255, 255, 255, 0.6);
+            transition: all 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #F9D889; /* Hovers to brand-gold */
+            padding-left: 5px;
+        }
+
+        .newsletter-glass {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(249, 216, 137, 0.2);
+            color: white;
+        }
+
+        .newsletter-glass:focus {
+            border-color: #F9D889;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* --- MOBILE MENU ANIMATION --- */
+        #mobile-menu {
+            transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+            transform: translateX(100%);
+        }
+        #mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        /* GRADIENT TEXT STYLES */
+        .gradient-text-1 {
+            background: linear-gradient(to left, #8D0E17, #C71843);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-text-2 {
+            background: linear-gradient(to right, #F5B577, #8D0E17);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Ensure Logo remains circular and clean */
+        .rounded-full {
+            border-radius: 50%;
+        }
+
+        /* Text Gradient for the header only */
+        .text-brand-crimson {
+            color: #C71843;
+        }
+
+        /* --- ENHANCED LOGO MEANING ANIMATIONS --- */
+        .meaning-card {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .meaning-card.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hover effects for the cards */
+        .meaning-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        /* Central Logo Floating Animation */
+        .logo-float {
+            animation: logo-float 6s ease-in-out infinite;
+        }
+
+        @keyframes logo-float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+
+        /* Pulse Glow for the Logo Background */
+        .logo-glow {
+            animation: pulse-glow 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); opacity: 0.2; }
+            50% { transform: scale(1.2); opacity: 0.4; }
+        }
+
+        /* Custom Delay for Staggering via JS or Utility Classes */
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+
+    </style>
+</head>
+<body class="font-sans bg-white text-gray-900">
+
+    <nav id="main-nav" class="fixed top-0 left-0 w-full z-50 nav-transparent py-4 transition-all duration-300 nav-entrance">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-between items-center">
+                <a href="#" class="group flex items-center gap-3">
+                    <img src="logo.png" alt="Logo" class="h-10 w-auto transition-transform duration-300 group-hover:scale-110">
+                    <div class="flex items-center gap-1">
+                        <span class="logo-text font-black text-3xl tracking-tighter transition-all duration-300 group-hover:tracking-normal">
+                            NY<span class="text-brand-gold group-hover:text-brand-orange transition-colors duration-300">TDC</span>
+                        </span>
+                        <div class="w-1.5 h-1.5 rounded-full bg-brand-gold mt-4 group-hover:scale-150 transition-transform duration-300"></div>
+                    </div>
+                </a>
+                
+                <div class="hidden lg:flex items-center space-x-8 text-sm font-bold uppercase tracking-widest glass-menu-pill">
+                    <a href="#about" class="nav-link relative">About</a>
+                    <a href="#activities" class="nav-link relative">Activities</a>
+                    <a href="#" class="nav-link relative">Events</a>
+                    <a href="#resources" class="nav-link relative">Resources</a>
+                    <a href="#" class="nav-link relative">Contact Us</a>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <a href="#donate" class="hidden lg:block bg-brand-deep text-white px-6 py-2 rounded-full hover:bg-brand-crimson transition shadow-lg transform hover:-translate-y-1 font-bold">Donate</a>
+                    
+                    <button id="mobile-menu-btn" class="lg:hidden flex items-center justify-center p-2 focus:outline-none transition-colors duration-300">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="mobile-menu" class="fixed inset-0 bg-brand-deep z-[60] flex flex-col items-center justify-center space-y-8 text-xl font-black uppercase tracking-widest text-white">
+        <button id="close-menu-btn" class="absolute top-6 right-6 text-white text-3xl p-4">
+            <i class="fas fa-times"></i>
+        </button>
+        <a href="#about" class="mobile-link hover:text-brand-gold transition-colors">About</a>
+        <a href="#roadmap" class="mobile-link hover:text-brand-gold transition-colors">Roadmap</a>
+        <a href="#activities" class="mobile-link hover:text-brand-gold transition-colors">Activities</a>
+        <a href="#" class="mobile-link hover:text-brand-gold transition-colors">Events</a>
+        <a href="#resources" class="mobile-link hover:text-brand-gold transition-colors">Resources</a>
+        <a href="#" class="mobile-link hover:text-brand-gold transition-colors">Contact Us</a>
+        <a href="#donate" class="bg-brand-gold text-brand-deep px-10 py-4 rounded-full font-black mt-4 block">Donate Now</a>
+    </div>
+
+    <section id="hero" class="hero-section min-h-screen flex items-center justify-center text-center px-6 pt-20">
+        <div class="max-w-4xl relative z-10">
+            <h1 class="hero-animate text-5xl md:text-7xl font-black text-white mb-6 leading-tight drop-shadow-2xl [animation-delay:600ms]">
+                Bringing the Tamil Heritage to <span class="text-brand-gold">Staten Island</span>
+            </h1>
+            <p class="hero-animate text-xl md:text-2xl text-brand-pale mb-10 font-medium leading-relaxed drop-shadow-lg [animation-delay:1000ms]">
+                Preserving culture, fostering community, and building a home for generations.
+            </p>
+            <div class="hero-animate flex flex-wrap justify-center gap-4 [animation-delay:1400ms]">
+                <a href="#donate" class="bg-brand-gold text-brand-deep px-10 py-4 rounded-full font-black text-lg hover:bg-white transition shadow-2xl">Support Our Vision</a>
+                <a href="#volunteer" class="bg-white/10 backdrop-blur-sm border-2 border-white text-white px-10 py-4 rounded-full font-black text-lg hover:bg-white hover:text-brand-deep transition">Volunteer</a>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 left-6 md:left-12 z-20 flex flex-col gap-6 hero-animate [animation-delay:1800ms]">
+            <a href="#" class="social-link social-fb" aria-label="Facebook"><i class="fab fa-facebook-f text-xl"></i></a>
+            <a href="#" class="social-link social-yt" aria-label="YouTube"><i class="fab fa-youtube text-xl"></i></a>
+            <a href="#" class="social-link social-ig" aria-label="Instagram"><i class="fab fa-instagram text-xl"></i></a>
+            <a href="#" class="social-link social-tk" aria-label="TikTok"><i class="fab fa-tiktok text-xl"></i></a>
+            <a href="#" class="social-link social-li" aria-label="LinkedIn"><i class="fab fa-linkedin-in text-xl"></i></a>
+        </div>
+    </section>
+
+    <section id="about" class="py-24 bg-white overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mx-auto mb-20 text-center reveal-trigger">
+                <div class="flex flex-col items-center">
+                    <div class="reveal-line mb-6 h-1 w-0 bg-brand-deep"></div>
+                    <h4 class="opacity-0 transition-all duration-700 transform translate-y-4 text-brand-crimson font-black uppercase tracking-[0.3em] mb-4 text-xs italic">Who We Are</h4>
+                    <h2 class="opacity-0 transition-all duration-700 delay-200 transform translate-y-4 text-5xl md:text-6xl font-black text-brand-deep mb-6 leading-tight tracking-tight">
+                        Our <span class="text-gradient-brand">Foundation</span> & <br> 
+                        <span class="relative inline-block">Commitment<span class="absolute bottom-1 left-0 w-full h-3 bg-brand-gold/30 -z-10"></span></span>
+                    </h2>
+                    <p class="opacity-0 transition-all duration-700 delay-400 transform translate-y-4 text-xl text-gray-600 leading-relaxed font-medium">
+                        The <span class="text-brand-deep font-bold border-b-2 border-brand-gold">New York Tamil Development Council</span> (NYTDC) is a <span class="bg-brand-pale/50 px-2 rounded-md font-bold text-brand-crimson">501(c)(3) non-profit</span> dedicated to the Tamil diaspora.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-10 reveal-trigger">
+                <div class="opacity-0 transition-all duration-700 delay-400 transform translate-y-12 group relative bg-white p-10 rounded-[2.5rem] shadow-xl hover:shadow-[0_30px_60px_-15px_rgba(141,14,23,0.2)] hover:-translate-y-5 transition-all duration-500 overflow-hidden border border-transparent hover:border-brand-gold/20">
+                    <div class="absolute -right-16 -top-16 w-44 h-44 bg-brand-deep/5 rounded-full transition-all duration-700 group-hover:scale-150 group-hover:bg-brand-deep/10"></div>
+                    <div class="absolute -left-10 -bottom-10 w-32 h-32 bg-brand-gold/5 rounded-full transition-all duration-700 group-hover:scale-125 group-hover:bg-brand-gold/10"></div>
+                    
+                    <div class="relative z-10">
+                        <div class="w-20 h-20 bg-gradient-to-br from-brand-deep to-brand-crimson rounded-2xl flex items-center justify-center mb-8 shadow-lg group-hover:rotate-12 group-hover:scale-110 transition-all duration-500">
+                            <i class="fas fa-bullseye text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-black text-brand-deep mb-4 group-hover:text-brand-crimson transition-colors duration-300">Mission</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-6">To unite the Tamil community of Staten Island by preserving and promoting Tamil heritage, language, art, and culture through educational, cultural, and charitable initiatives.</p>
+                        
+                        <div class="w-12 h-1 bg-brand-gold rounded-full transition-all duration-500 group-hover:w-full group-hover:bg-brand-deep"></div>
+                    </div>
+                </div>
+
+                <div class="opacity-0 transition-all duration-700 delay-600 transform translate-y-12 group relative bg-white p-10 rounded-[2.5rem] shadow-xl hover:shadow-[0_30px_60px_-15px_rgba(245,181,119,0.25)] hover:-translate-y-5 transition-all duration-500 overflow-hidden border border-transparent hover:border-brand-gold/30">
+                    <div class="absolute -right-16 -top-16 w-44 h-44 bg-brand-orange/10 rounded-full transition-all duration-700 group-hover:scale-150 group-hover:bg-brand-orange/20"></div>
+                    <div class="absolute -left-10 -bottom-10 w-32 h-32 bg-brand-deep/5 rounded-full transition-all duration-700 group-hover:scale-125 group-hover:bg-brand-deep/10"></div>
+                    
+                    <div class="relative z-10">
+                        <div class="w-20 h-20 bg-gradient-to-br from-brand-orange to-brand-gold rounded-2xl flex items-center justify-center mb-8 shadow-lg group-hover:rotate-[-12deg] group-hover:scale-110 transition-all duration-500">
+                            <i class="fas fa-eye text-brand-deep text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-black text-brand-deep mb-4 group-hover:text-brand-orange transition-colors duration-300">Vision</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-6">To build a vibrant and inclusive Tamil community center that serves as a home for cultural expression, lifelong learning, and social connection for future generations.</p>
+                        
+                        <div class="w-12 h-1 bg-brand-orange rounded-full transition-all duration-500 group-hover:w-full"></div>
+                    </div>
+                </div>
+
+                <div class="opacity-0 transition-all duration-700 delay-800 transform translate-y-12 group relative bg-white p-10 rounded-[2.5rem] shadow-xl hover:shadow-[0_30px_60px_-15px_rgba(199,24,67,0.15)] hover:-translate-y-5 transition-all duration-500 overflow-hidden border border-transparent hover:border-brand-soft/30">
+                    <div class="absolute -right-16 -top-16 w-44 h-44 bg-brand-crimson/5 rounded-full transition-all duration-700 group-hover:scale-150 group-hover:bg-brand-crimson/10"></div>
+                    <div class="absolute -left-10 -bottom-10 w-32 h-32 bg-brand-soft/10 rounded-full transition-all duration-700 group-hover:scale-125 group-hover:bg-brand-soft/20"></div>
+                    
+                    <div class="relative z-10">
+                        <div class="w-20 h-20 bg-gradient-to-br from-brand-crimson to-brand-soft rounded-2xl flex items-center justify-center mb-8 shadow-lg group-hover:rotate-12 group-hover:scale-110 transition-all duration-500">
+                            <i class="fas fa-heart text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-black text-brand-deep mb-4 group-hover:text-brand-crimson transition-colors duration-300">Purpose</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-6">To establish a cultural hub for arts and education, promote Tamil language fluency, and provide social services that strengthen the diaspora's well-being.</p>
+                        
+                        <div class="w-12 h-1 bg-brand-crimson rounded-full transition-all duration-500 group-hover:w-full"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="logo-meaning" class="py-24 bg-gray-50 overflow-hidden reveal-trigger">
+        <div class="container mx-auto px-6">
+            
+            <div class="flex flex-col items-center mb-16 text-center">
+                <div class="reveal-line mb-4 h-1 w-24 bg-brand-deep mx-auto"></div>
+                <h2 class="opacity-0 transition-all duration-700 delay-200 transform translate-y-4 text-4xl md:text-5xl font-bold text-brand-deep tracking-tight">
+                    The <span class="text-brand-crimson">Symbolism</span> of Our Identity
+                </h2>
+             </div>
+
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-12">
+                
+                <div class="w-full lg:w-1/3 space-y-6 order-2 lg:order-1">
+                    <div class="meaning-card bg-white p-6 rounded-2xl border-r-4 border-brand-crimson shadow-sm transition-all delay-100">
+                        <h4 class="text-brand-crimson font-bold text-lg mb-1">1. Red and Green Colors</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">Represent the colors of the Karthikai Poo, symbolizing resilience and cultural pride.</p>
+                    </div>
+
+                    <div class="meaning-card bg-white p-6 rounded-2xl border-r-4 border-brand-deep shadow-sm transition-all delay-200">
+                        <h4 class="text-brand-deep font-bold text-lg mb-1">2. Handshake (ஒற்றுமை)</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">Signifies unity and cooperation, representing our commitment to bringing together Tamils under one shared vision.</p>
+                    </div>
+
+                    <div class="meaning-card bg-white p-6 rounded-2xl border-r-4 border-brand-soft shadow-sm transition-all delay-300">
+                        <h4 class="text-brand-soft font-bold text-lg mb-1">3. Palm Tree</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">A timeless emblem of Tamil identity, symbolizing endurance, self-sufficiency, and multifaceted culture.</p>
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-1/3 flex justify-center order-1 lg:order-2">
+                    <div class="relative group logo-float">
+                        <div class="absolute inset-0 bg-brand-gold/20 rounded-full blur-3xl logo-glow"></div>
+                        
+                        <div class="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full border-4 border-brand-gold p-4 bg-white shadow-2xl flex items-center justify-center overflow-hidden transition-transform duration-500 hover:scale-110">
+                            <img src="logo.png" alt="NYTDC Logo" class="w-full h-full object-contain">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-1/3 space-y-6 order-3">
+                    <div class="meaning-card bg-white p-6 rounded-2xl border-l-4 border-brand-orange shadow-sm transition-all delay-100">
+                        <h4 class="text-brand-orange font-bold text-lg mb-1">4. Agriculture & Roots</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">Farmer, Cows, and Crops honor the farmers whose labor sustains life, humility, and perseverance.</p>
+                    </div>
+
+                    <div class="meaning-card bg-white p-6 rounded-2xl border-l-4 border-brand-gold shadow-sm transition-all delay-200">
+                        <h4 class="text-brand-gold font-bold text-lg mb-1">5. Rising Sun</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">Embodies hope and the continuous rise of Tamil culture in new horizons.</p>
+                    </div>
+
+                    <div class="meaning-card bg-brand-deep p-6 rounded-2xl border-l-4 border-white shadow-lg transition-all delay-300">
+                        <h4 class="text-brand-gold font-bold text-lg mb-1 italic">6. Our Motto</h4>
+                        <p class="text-white/90 text-sm leading-relaxed font-medium">அறத்திற்கே அன்புசார் (Araththirkke Anbusaar); true compassion and unity are rooted in virtue.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="roadmap" class="roadmap-container py-10">
+        <div class="scroll-controls">
+            <button class="arrow-btn" onclick="timelineScroll(-300)"><i class="fas fa-chevron-left"></i></button>
+            <button class="arrow-btn" onclick="timelineScroll(300)"><i class="fas fa-chevron-right"></i></button>
+        </div>
+
+        <div class="timeline">
+            <div class="info">
+                <img width="300" src="logo.png" alt="NYTDC Logo" class="mb-4" />
+                <h2 class="text-3xl font-black text-brand-gold italic mb-2">Strategic Journey</h2>
+                <p class="text-white/70">Explore our planned milestones for the coming years as we build a permanent home.</p>
+            </div>
+
+            <ol id="roadmap-list">
+                <li><div><time>2025</time><h4 class="font-bold text-brand-deep mb-2">Setup</h4><ul class="milestone-list"><li>Choose a Name and Legal Structure</li><li>Define NYTDC Mission and Vision</li><li>501(c)(3) Status</li><li>Bank Account</li></ul></div></li>
+                <li><div><time>2026</time><h4 class="font-bold text-brand-deep mb-2">Mobilization</h4><ul class="milestone-list"><li>Website Launch</li><li>100 Members Goal</li><li>Host Events</li><li>$100k Fundraising</li><li>Pilot Sports/Classes</li></ul></div></li>
+                <li><div><time>2027</time><h4 class="font-bold text-brand-deep mb-2">Scaling</h4><ul class="milestone-list"><li>Apply for Grants</li><li>$500k Goal</li><li>300 Members Goal</li></ul></div></li>
+                <li><div><time>2028</time><h4 class="font-bold text-brand-deep mb-2">Selection</h4><ul class="milestone-list"><li>"Build TCC" Drive</li><li>$1M Goal</li><li>Scout Properties</li><li>Design Facility</li></ul></div></li>
+                <li><div><time>2029</time><h4 class="font-bold text-brand-deep mb-2">Acquisition</h4><ul class="milestone-list"><li>$2M Goal</li><li>Purchase Land</li><li>750 Members</li><li>RFP Builders</li></ul></div></li>
+                <li><div><time>2030</time><h4 class="font-bold text-brand-deep mb-2">Groundbreak</h4><ul class="milestone-list"><li>$3M Goal</li><li>Secure Loans</li><li>Start Construction</li></ul></div></li>
+                <li><div><time>2031-33</time><h4 class="font-bold text-brand-deep mb-2">Legacy</h4><ul class="milestone-list"><li>Complete TCC</li><li>$7.5M Goal</li><li>1,000 Members</li><li>Expand Boroughs</li></ul></div></li>
+                <li></li> </ol>
+        </div>
+    </section>
+
+    <section id="activities" class="py-24 bg-gray-50 overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mx-auto mb-20 text-center reveal-trigger">
+                <div class="flex flex-col items-center">
+                    <div class="reveal-line mb-6 h-1 w-0 bg-brand-deep"></div>
+                    <h4 class="opacity-0 transition-all duration-700 transform translate-y-4 text-brand-crimson font-black uppercase tracking-[0.3em] mb-4 text-xs italic">What We Do</h4>
+                    <h2 class="opacity-0 transition-all duration-700 delay-200 transform translate-y-4 text-5xl md:text-6xl font-black text-brand-deep mb-6">
+                        Empowering <span class="text-gradient-brand">Generations</span>
+                    </h2>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 activities-grid reveal-trigger">
+                <div class="opacity-0 transition-all duration-1000 delay-100 transform translate-y-12 activity-card group relative h-[550px] rounded-[2.5rem] overflow-hidden shadow-2xl">
+                    <img src="cul.jpeg" alt="Tamil Arts and Culture">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-deep via-brand-deep/20 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    <div class="absolute bottom-0 p-10 activity-float-content w-full">
+                        <div class="w-14 h-14 bg-brand-gold rounded-2xl flex items-center justify-center mb-6 text-brand-deep shadow-xl rotate-3 group-hover:rotate-12 transition-transform">
+                            <i class="fas fa-paint-brush text-2xl"></i>
+                        </div>
+                        <h3 class="text-4xl font-black text-white mb-4">Arts & <br><span class="text-brand-gold">Culture</span></h3>
+                        <p class="text-white/80 text-sm leading-relaxed mb-6 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                            Preserving Tamil identity through classical dance, traditional music, and vibrant heritage festivals.
+                        </p>
+                        <div class="flex gap-2">
+                            <span class="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-[10px] text-white font-bold uppercase tracking-widest border border-white/20">Dance</span>
+                            <span class="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-[10px] text-white font-bold uppercase tracking-widest border border-white/20">Music</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="opacity-0 transition-all duration-1000 delay-300 transform translate-y-12 activity-card group relative h-[550px] rounded-[2.5rem] overflow-hidden shadow-2xl">
+                    <img src="spo.png" class="absolute inset-0 w-full h-full object-cover" alt="Tamil Community Sports">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-orange/90 via-brand-orange/20 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    <div class="absolute bottom-0 p-10 activity-float-content w-full">
+                        <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 text-brand-orange shadow-xl -rotate-3 group-hover:rotate-12 transition-transform">
+                            <i class="fas fa-medal text-2xl"></i>
+                        </div>
+                        <h3 class="text-4xl font-black text-white mb-4">Community <br><span class="text-brand-deep">Sports</span></h3>
+                        <p class="text-white/90 text-sm leading-relaxed mb-6 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                            Fostering teamwork and physical health through cricket, soccer, and youth athletic leagues.
+                        </p>
+                        <div class="flex gap-2">
+                            <span class="px-3 py-1 bg-brand-deep/20 backdrop-blur-md rounded-full text-[10px] text-white font-bold uppercase tracking-widest border border-white/20">Cricket</span>
+                            <span class="px-3 py-1 bg-brand-deep/20 backdrop-blur-md rounded-full text-[10px] text-white font-bold uppercase tracking-widest border border-white/20">Soccer</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="opacity-0 transition-all duration-1000 delay-500 transform translate-y-12 activity-card group relative h-[550px] rounded-[2.5rem] overflow-hidden shadow-2xl">
+                    <img src="edu.jpeg" class="absolute inset-0 w-full h-full object-cover" alt="Tamil Language and STEM Education">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-crimson via-brand-crimson/20 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    <div class="absolute bottom-0 p-10 activity-float-content w-full">
+                        <div class="w-14 h-14 bg-brand-gold rounded-2xl flex items-center justify-center mb-6 text-brand-crimson shadow-xl rotate-3 group-hover:rotate-12 transition-transform">
+                            <i class="fas fa-book-open text-2xl"></i>
+                        </div>
+                        <h3 class="text-4xl font-black text-white mb-4">Tamil <br><span class="text-brand-pale">Education</span></h3>
+                        <p class="text-white/80 text-sm leading-relaxed mb-6 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                            Empowering youth with Tamil language fluency, cultural history, and career mentorship.
+                        </p>
+                        <div class="flex gap-2">
+                            <span class="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-[10px] text-white font-bold uppercase tracking-widest border border-white/20">Language</span>
+                            <span class="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-[10px] text-white font-bold uppercase tracking-widest border border-white/20">Mentoring</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="donate" class="py-24 bg-white overflow-hidden">
+        <div class="container mx-auto px-6">
+            
+            <div class="flex flex-col lg:flex-row gap-16 items-stretch mb-24">
+                <div class="lg:w-1/2 donate-gradient rounded-[3rem] p-12 text-white shadow-2xl flex flex-col justify-center relative overflow-hidden reveal-trigger">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl"></div>
+                    
+                    <div class="relative z-10">
+                        <h4 class="text-brand-gold font-black uppercase tracking-[0.3em] mb-4 text-xs italic opacity-0 transition-all duration-700 transform translate-y-4">Fuel Our Mission</h4>
+                        <h2 class="text-5xl font-black mb-6 leading-tight opacity-0 transition-all duration-700 delay-200 transform translate-y-4">Invest in our <br><span class="text-brand-gold">Community Home</span></h2>
+                        <p class="text-white/80 text-lg mb-10 leading-relaxed opacity-0 transition-all duration-700 delay-400 transform translate-y-4">
+                            Your tax-deductible contribution directly funds the acquisition of land and the construction of the Staten Island Tamil Community Center.
+                        </p>
+                        
+                        <div class="flex flex-col sm:flex-row gap-4 opacity-0 transition-all duration-700 delay-600 transform translate-y-4">
+                            <a href="https://www.paypal.com/donate" target="_blank" class="paypal-btn px-8 py-4 rounded-full font-black text-center flex items-center justify-center gap-3 shadow-lg">
+                                <i class="fab fa-paypal text-xl"></i>
+                                Donate via PayPal
+                            </a>
+                            <a href="#" class="bg-white/10 backdrop-blur-md border border-white/30 px-8 py-4 rounded-full font-bold text-center hover:bg-white/20 transition">
+                                Other Ways to Give
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:w-1/2 flex flex-col justify-center reveal-trigger">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="p-8 bg-gray-50 rounded-[2rem] border-l-4 border-brand-gold opacity-0 transition-all duration-700 delay-200 transform translate-x-4">
+                            <h5 class="text-brand-deep font-black text-4xl mb-2">$7.5M</h5>
+                            <p class="text-gray-500 font-bold uppercase text-xs tracking-widest">2033 Funding Goal</p>
+                        </div>
+                        <div class="p-8 bg-gray-50 rounded-[2rem] border-l-4 border-brand-orange opacity-0 transition-all duration-700 delay-400 transform translate-x-4">
+                            <h5 class="text-brand-deep font-black text-4xl mb-2">100%</h5>
+                            <p class="text-gray-500 font-bold uppercase text-xs tracking-widest">Goes to Projects</p>
+                        </div>
+                        <div class="p-8 bg-gray-50 rounded-[2rem] border-l-4 border-brand-crimson opacity-0 transition-all duration-700 delay-600 transform translate-x-4">
+                            <h5 class="text-brand-deep font-black text-4xl mb-2">501(c)(3)</h5>
+                            <p class="text-gray-500 font-bold uppercase text-xs tracking-widest">Tax Deductible</p>
+                        </div>
+                        <div class="p-8 bg-gray-50 rounded-[2rem] border-l-4 border-brand-deep opacity-0 transition-all duration-700 delay-800 transform translate-x-4">
+                            <h5 class="text-brand-deep font-black text-4xl mb-2">Monthly</h5>
+                            <p class="text-gray-500 font-bold uppercase text-xs tracking-widest">Giving Options</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mb-12 reveal-trigger">
+                <h3 class="text-3xl font-black text-brand-deep opacity-0 transition-all duration-700 transform translate-y-4">Our <span class="text-gradient-brand">Donors</span></h3>
+                <p class="text-gray-500 mt-2 opacity-0 transition-all duration-700 delay-200 transform translate-y-4">A special thank you to those leading the way.</p>
+            </div>
+
+            <div class="donor-wall overflow-x-auto pb-10 flex gap-6 no-scrollbar reveal-trigger">
+                <div class="donor-card min-w-[280px] bg-white p-6 rounded-3xl text-center opacity-0 transition-all duration-700 delay-100 transform translate-y-8">
+                    <div class="w-16 h-16 bg-brand-gold/20 text-brand-deep rounded-full flex items-center justify-center mx-auto mb-4 font-black text-xl">
+                        S
+                    </div>
+                    <h6 class="font-black text-brand-deep">Senthil Kumar</h6>
+                    <p class="text-brand-crimson font-bold text-xs uppercase tracking-tighter">Platinum Donor</p>
+                    <div class="mt-4 flex justify-center gap-1">
+                        <i class="fas fa-star text-brand-gold text-[10px]"></i>
+                        <i class="fas fa-star text-brand-gold text-[10px]"></i>
+                        <i class="fas fa-star text-brand-gold text-[10px]"></i>
+                    </div>
+                </div>
+
+                <div class="donor-card min-w-[280px] bg-white p-6 rounded-3xl text-center opacity-0 transition-all duration-700 delay-300 transform translate-y-8">
+                    <div class="w-16 h-16 bg-brand-orange/20 text-brand-orange rounded-full flex items-center justify-center mx-auto mb-4 font-black text-xl">
+                        A
+                    </div>
+                    <h6 class="font-black text-brand-deep">Anjali Devi</h6>
+                    <p class="text-brand-crimson font-bold text-xs uppercase tracking-tighter">Gold Member</p>
+                    <div class="mt-4 flex justify-center gap-1">
+                        <i class="fas fa-star text-brand-gold text-[10px]"></i>
+                        <i class="fas fa-star text-brand-gold text-[10px]"></i>
+                    </div>
+                </div>
+
+                <div class="donor-card min-w-[280px] bg-white p-6 rounded-3xl text-center opacity-0 transition-all duration-700 delay-500 transform translate-y-8">
+                    <div class="w-16 h-16 bg-brand-deep/10 text-brand-deep rounded-full flex items-center justify-center mx-auto mb-4 font-black text-xl">
+                        R
+                    </div>
+                    <h6 class="font-black text-brand-deep">Rajesh Raman</h6>
+                    <p class="text-brand-crimson font-bold text-xs uppercase tracking-tighter">Founding Supporter</p>
+                    <div class="mt-4 flex justify-center gap-1">
+                        <i class="fas fa-star text-brand-gold text-[10px]"></i>
+                    </div>
+                </div>
+
+                <div class="donor-card min-w-[280px] bg-white p-6 rounded-3xl text-center opacity-0 transition-all duration-700 delay-700 transform translate-y-8">
+                    <div class="w-16 h-16 bg-gray-100 text-gray-400 rounded-full flex items-center justify-center mx-auto mb-4 font-black text-xl">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h6 class="font-black text-brand-deep">Anonymous</h6>
+                    <p class="text-brand-crimson font-bold text-xs uppercase tracking-tighter">Community Friend</p>
+                    <div class="mt-4 flex justify-center gap-1">
+                        <i class="fas fa-heart text-brand-gold text-[10px]"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer-glass pt-24 pb-12 text-white overflow-hidden footer-brand-bg">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
+                
+                <div class="footer-column">
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-black tracking-tighter text-white">NY<span class="text-brand-gold">TDC</span></h2>
+                        <p class="text-brand-gold/80 text-[10px] uppercase tracking-[0.3em] font-bold">New York Tamil Center</p>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                        Preserving and promoting Tamil heritage, language, and culture through community-driven initiatives in Staten Island.
+                    </p>
+                    <div class="inline-block px-4 py-2 rounded-xl bg-white/5 border border-white/10">
+                        <span class="text-brand-gold font-bold text-xs tracking-widest uppercase italic">501(c)(3) Non-Profit Status</span>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="text-white font-black uppercase tracking-widest text-xs mb-8">Quick Links </h4>
+                    <ul class="space-y-4 text-sm font-medium text-gray-400">
+                        <li><a href="#about" class="footer-link">Our Mission & Vision</a></li>
+                        <li><a href="#roadmap" class="footer-link">Strategic Journey</a></li>
+                        <li><a href="#" class="footer-link">Resources</a></li>
+                <li><a href="#" class="footer-link">FAQ</a></li>
+                        <li><a href="#donate" class="footer-link">Support Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="text-white font-black uppercase tracking-widest text-xs mb-8">Contact Us</h4>
+                    <ul class="space-y-6 text-sm text-gray-400">
+                        <li class="flex items-start gap-4">
+                            <i class="fas fa-map-marker-alt text-brand-gold mt-1"></i>
+                            <span>Staten Island, NY</span>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <i class="fas fa-envelope text-brand-gold mt-1"></i>
+                            <a href="mailto:info@nytdc.org" class="hover:text-white transition-colors">info@nytdc.org</a>
+                        </li>
+                        <li class="pt-4 flex gap-6">
+                            <a href="#" class="social-link text-xl"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-link text-xl"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-link text-xl"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link text-xl"><i class="fab fa-youtube"></i></a>
+                <a href="#" class="social-link text-xl"><i class="fab fa-tiktok"></i></a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="text-white font-black uppercase tracking-widest text-xs mb-8">Stay Informed</h4>
+                    <p class="text-gray-400 text-sm mb-6">Join our mailing list for latest updates and news.</p>
+                    <form class="flex flex-col gap-3">
+                        <input type="email" placeholder="Your email address" class="newsletter-glass px-6 py-4 rounded-2xl text-sm outline-none">
+                        <button class="w-full bg-brand-gold hover:bg-white text-brand-deep font-black py-4 rounded-2xl transition-all duration-300 uppercase tracking-widest text-[10px]">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="pt-12 border-t border-white/5">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] uppercase tracking-[0.2em] font-bold text-gray-500">
+                    <p>© 2025 New York Tamil Community & Development Center.</p>
+                    <div class="flex gap-8">
+                        <a href="#" class="hover:text-brand-gold transition-colors">Privacy Policy</a>
+                        <a href="#" class="hover:text-brand-gold transition-colors">Terms of Use</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Logic
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const closeBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('active');
+            // Prevent scrolling when menu is open
+            if(mobileMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+        closeBtn.addEventListener('click', toggleMenu);
+        
+        // Close menu when a link is clicked
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+
+        // Star Background
+        function createStars() {
+            const hero = document.getElementById('hero');
+            if(!hero) return;
+            for (let i = 0; i < 60; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                const size = Math.random() * 3 + 2;
+                star.style.width = star.style.height = `${size}px`;
+                star.style.setProperty('--duration', `${Math.random() * 4 + 4}s`);
+                star.style.setProperty('--max-opacity', Math.random() * 0.4 + 0.6);
+                hero.appendChild(star);
+            }
+        }
+        createStars();
+
+        // Nav Scroll Logic
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('main-nav');
+            if (window.scrollY > 50) nav.classList.replace('nav-transparent', 'nav-scrolled');
+            else nav.classList.replace('nav-scrolled', 'nav-transparent');
+        });
+
+        // Updated Observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Trigger standard opacity/translate animations
+                    entry.target.querySelectorAll('.opacity-0').forEach(el => {
+                        el.classList.remove('opacity-0', 'translate-y-4', 'translate-y-12', 'translate-x-4');
+                    });
+                    
+                    // Trigger the new meaning-card staggered animation
+                    entry.target.querySelectorAll('.meaning-card').forEach(el => {
+                        el.classList.add('animate-in');
+                    });
+
+                    const line = entry.target.querySelector('.reveal-line');
+                    if (line) line.classList.add('reveal-line-anim');
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal-trigger').forEach(trigger => observer.observe(trigger));
+
+        // --- SECTION 3 LOGIC ---
+        function timelineScroll(distance) {
+            document.getElementById('roadmap-list').scrollBy({ left: distance, behavior: 'smooth' });
+        }
+
+        function adjustTimelineHeight() {
+            const boxes = document.querySelectorAll(".timeline ol li div");
+            const ol = document.querySelector(".timeline ol");
+            const isMobile = window.innerWidth < 800;
+            let maxH = 0;
+
+            boxes.forEach(box => {
+                box.style.height = "auto"; 
+                const height = box.offsetHeight;
+                if(height > maxH) maxH = height;
+            });
+
+            const finalBoxHeight = isMobile ? Math.min(maxH, 250) : maxH;
+            
+            boxes.forEach(box => {
+                box.style.height = finalBoxHeight + "px";
+            });
+
+            const verticalBuffer = isMobile ? finalBoxHeight + 60 : finalBoxHeight + 100;
+            ol.style.paddingTop = verticalBuffer + "px";
+            ol.style.paddingBottom = verticalBuffer + "px";
+        }
+
+        window.addEventListener("load", adjustTimelineHeight);
+        window.addEventListener("resize", adjustTimelineHeight);
+    </script>
+</body>
+</html>
