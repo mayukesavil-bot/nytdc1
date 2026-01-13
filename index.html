@@ -762,6 +762,80 @@
         .delay-200 { transition-delay: 200ms; }
         .delay-300 { transition-delay: 300ms; }
 
+		/* --- UPCOMING SECTION STYLES --- */
+        .upcoming-card {
+            background: white;
+            border-radius: 2rem;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .upcoming-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(141, 14, 23, 0.15);
+            border-color: rgba(249, 216, 137, 0.5);
+        }
+
+        /* News Card Specifics */
+        .news-badge {
+            background: linear-gradient(135deg, #8D0E17, #C71843);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 99px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* Event Date Box */
+        .event-date-box {
+            background: #F9D889;
+            color: #8D0E17;
+            border-radius: 1rem;
+            padding: 10px;
+            text-align: center;
+            line-height: 1;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Gallery Grid Animation */
+        .gallery-grid-item {
+            overflow: hidden;
+            border-radius: 1rem;
+            position: relative;
+        }
+        .gallery-grid-item img {
+            transition: transform 0.6s ease;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .upcoming-card:hover .gallery-grid-item img {
+            transform: scale(1.15);
+        }
+        
+        /* Arrow Link Animation */
+        .card-link-arrow {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: rgba(141, 14, 23, 0.05);
+            color: #8D0E17;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .upcoming-card:hover .card-link-arrow {
+            background: #8D0E17;
+            color: #F9D889;
+            transform: translateX(5px);
+        }
+
+
     </style>
 </head>
 <body class="font-sans bg-white text-gray-900">
@@ -827,9 +901,9 @@
         </div>
 
         <div class="absolute bottom-10 left-6 md:left-12 z-20 flex flex-col gap-6 hero-animate [animation-delay:1800ms]">
-            <a href="#" class="social-link social-fb" aria-label="Facebook"><i class="fab fa-facebook-f text-xl"></i></a>
+            <a href="https://www.facebook.com/NYTDCOfficial" class="social-link social-fb" aria-label="Facebook"><i class="fab fa-facebook-f text-xl"></i></a>
             <a href="#" class="social-link social-yt" aria-label="YouTube"><i class="fab fa-youtube text-xl"></i></a>
-            <a href="#" class="social-link social-ig" aria-label="Instagram"><i class="fab fa-instagram text-xl"></i></a>
+            <a href="https://www.instagram.com/nytdcofficial" class="social-link social-ig" aria-label="Instagram"><i class="fab fa-instagram text-xl"></i></a>
             <a href="#" class="social-link social-tk" aria-label="TikTok"><i class="fab fa-tiktok text-xl"></i></a>
             <a href="#" class="social-link social-li" aria-label="LinkedIn"><i class="fab fa-linkedin-in text-xl"></i></a>
         </div>
@@ -941,15 +1015,15 @@
                     </div>
                 </div>
 
-                <div class="w-full lg:w-1/3 flex justify-center order-1 lg:order-2">
-                    <div class="relative group logo-float">
-                        <div class="absolute inset-0 bg-brand-gold/20 rounded-full blur-3xl logo-glow"></div>
-                        
-                        <div class="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full border-4 border-brand-gold p-4 bg-white shadow-2xl flex items-center justify-center overflow-hidden transition-transform duration-500 hover:scale-110">
-                            <img src="logo.png" alt="NYTDC Logo" class="w-full h-full object-contain">
-                        </div>
-                    </div>
-                </div>
+				<div class="w-full lg:w-1/3 flex justify-center order-1 lg:order-2">
+					<div class="relative group logo-float">
+						<div class="absolute inset-0 bg-brand-gold/20 rounded-full blur-3xl logo-glow"></div>
+						
+						<div class="relative w-80 h-80 md:w-96 md:h-96 lg:w-[32rem] lg:h-[32rem] flex items-center justify-center transition-transform duration-500 hover:scale-110">
+						<img src="logo.png" alt="NYTDC Logo" class="w-full h-full object-contain">
+						</div>
+					</div>
+				</div>
 
                 <div class="w-full lg:w-1/3 space-y-6 order-3">
                     <div class="meaning-card bg-white p-6 rounded-2xl border-l-4 border-brand-orange shadow-sm transition-all delay-100">
@@ -1074,6 +1148,107 @@
         </div>
     </section>
 
+	<section id="upcoming" class="py-24 bg-white relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-gray-50 -z-10 rounded-bl-[100px] opacity-50"></div>
+
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mx-auto mb-16 text-center reveal-trigger">
+                <div class="flex flex-col items-center">
+                    <div class="reveal-line mb-6 h-1 w-20 bg-brand-gold rounded-full"></div>
+                    <h4 class="opacity-0 transition-all duration-700 transform translate-y-4 text-brand-crimson font-black uppercase tracking-[0.3em] mb-4 text-xs italic">Stay Connected</h4>
+                    <h2 class="opacity-0 transition-all duration-700 delay-200 transform translate-y-4 text-4xl md:text-6xl font-black text-brand-deep mb-6">
+                        Happening <span class="relative z-10">Now<span class="absolute bottom-2 left-0 w-full h-3 bg-brand-gold/40 -z-10"></span></span>
+                    </h2>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 reveal-trigger">
+                
+                <a href="news.html" class="opacity-0 transition-all duration-1000 delay-100 transform translate-y-12 upcoming-card group p-8">
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="news-badge">Latest Update</span>
+                        <div class="card-link-arrow"><i class="fas fa-arrow-right"></i></div>
+                    </div>
+                    
+                    <div class="mb-4 overflow-hidden rounded-xl h-48">
+                        <img src="committe.jpg" alt="News" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"> 
+                        </div>
+
+                    <div class="mt-auto">
+                        <div class="text-xs font-bold text-gray-400 mb-2 flex items-center gap-2">
+                            <i class="far fa-calendar"></i> Jan 10, 2026
+                        </div>
+                        <h3 class="text-2xl font-black text-brand-deep mb-3 leading-tight group-hover:text-brand-crimson transition-colors">
+                            NYTDC Secures Phase 1 Funding Grant
+                        </h3>
+                        <p class="text-gray-600 text-sm line-clamp-2">
+                            We are thrilled to announce a significant milestone in our roadmap with a generous community grant...
+                        </p>
+                    </div>
+                </a>
+
+                <a href="events.html" class="opacity-0 transition-all duration-1000 delay-300 transform translate-y-12 upcoming-card group p-8 border-t-4 border-t-brand-gold">
+                    <div class="flex justify-between items-start mb-8">
+                        <div class="event-date-box">
+                            <span class="block text-2xl font-black">14</span>
+                            <span class="block text-[10px] font-bold uppercase tracking-wider">Apr</span>
+                        </div>
+                        <div class="card-link-arrow"><i class="fas fa-arrow-right"></i></div>
+                    </div>
+
+                    <div class="relative z-10 mt-2">
+                        <h4 class="text-brand-crimson font-bold uppercase tracking-widest text-xs mb-2">Upcoming Event</h4>
+                        <h3 class="text-3xl font-black text-brand-deep mb-4 leading-none">
+                            Chithirai <br>Puthandu <span class="text-brand-gold">2026</span>
+                        </h3>
+                        
+                        <div class="space-y-3 mt-6">
+                            <div class="flex items-center gap-3 text-gray-600">
+                                <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-brand-deep"><i class="far fa-clock"></i></div>
+                                <span class="text-sm font-medium">10:00 AM - 4:00 PM</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-gray-600">
+                                <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-brand-deep"><i class="fas fa-map-marker-alt"></i></div>
+                                <span class="text-sm font-medium">Snug Harbor Cultural Center</span>
+                            </div>
+                        </div>
+
+                        <button class="mt-8 w-full py-3 rounded-xl border border-brand-deep text-brand-deep font-bold text-sm uppercase hover:bg-brand-deep hover:text-white transition-all">
+                            Get Tickets
+                        </button>
+                    </div>
+                </a>
+
+                <a href="gallery.html" class="opacity-0 transition-all duration-1000 delay-500 transform translate-y-12 upcoming-card group p-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-black text-brand-deep">Community <span class="text-brand-crimson">Gallery</span></h3>
+                        <div class="card-link-arrow"><i class="fas fa-images"></i></div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 h-64">
+                        <div class="gallery-grid-item row-span-2">
+                            <img src="cul.jpeg" alt="Gallery 1" class="h-full">
+                        </div>
+                        <div class="gallery-grid-item">
+                            <img src="edu.jpeg" alt="Gallery 2">
+                        </div>
+                        <div class="gallery-grid-item relative">
+                            <img src="spo.png" alt="Gallery 3">
+                            <div class="absolute inset-0 bg-brand-deep/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <span class="text-white font-bold text-sm">View All</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="mt-6 text-gray-500 text-sm">
+                        Relive the moments from our recent Pongal celebration and youth sports meet.
+                    </p>
+                </a>
+
+            </div>
+        </div>
+    </section>
+	
     <section id="donate" class="donate-section py-24 reveal-trigger">
         <div class="donate-blob top-0 left-0"></div>
         <div class="donate-blob bottom-0 right-0" style="animation-delay: -10s;"></div>
@@ -1132,9 +1307,7 @@
             </div>
 
             <div class="text-center mb-16">
-                <div class="inline-block px-4 py-1 bg-brand-gold/10 rounded-full mb-4">
-                    <span class="text-brand-crimson font-bold text-xs uppercase tracking-widest">Leadership Circle</span>
-                </div>
+                
                 <h3 class="text-4xl font-black text-brand-deep opacity-0 transition-all duration-700 transform translate-y-4">Our <span class="text-gradient-brand">Donors</span></h3>
                 <p class="text-gray-500 mt-2 opacity-0 transition-all duration-700 delay-200 transform translate-y-4">A special thank you to those leading the way.</p>
             </div>
@@ -1211,18 +1384,18 @@
                 
                 <div class="lg:col-span-4">
                     <div class="flex items-center gap-4 mb-8">
-                        <img src="logo.png" alt="NYTDC Logo" class="h-16 w-auto">
+                        <img src="logo.png" alt="NYTDC Logo" class="h-36 w-auto">
                         <div>
                             <h2 class="text-3xl font-black tracking-tighter leading-none">NY<span class="text-brand-gold">TDC</span></h2>
                             <p class="text-brand-gold/60 text-[10px] uppercase tracking-[0.3em] font-bold mt-1">Staten Island Tamil Center</p>
                         </div>
                     </div>
                     <p class="text-white/60 text-sm leading-relaxed mb-8 max-w-sm">
-                        As a registered 501(c)(3) non-profit, we are dedicated to building a permanent home for Tamil culture, arts, and education in the heart of Staten Island.
+                        As a <u><a href='https://www.nycompanyregistry.com/companies/new-york-tamil-development-council-inc/'>registered 501(c)(3) non-profit </a></u>, we are dedicated to building a permanent home for Tamil culture, arts, and education in the heart of Staten Island.
                     </p>
                     <div class="flex gap-3">
-                        <a href="#" class="social-pill" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-pill" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/NYTDCOfficial" class="social-pill" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/nytdcofficial" class="social-pill" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                         <a href="#" class="social-pill" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
                         <a href="#" class="social-pill" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
 						<a href="#" class="social-pill" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
@@ -1254,7 +1427,7 @@
                             <div class="text-brand-gold"><i class="fas fa-envelope-open-text"></i></div>
                             <div class="text-xs">
                                 <p class="text-white font-bold">Email Us</p>
-                                <a href="mailto:info@nytdc.org" class="text-white/50 hover:text-brand-gold transition-colors">info@nytdc.org</a>
+                                <a href="mailto:tamildevelopmentcouncil@gmail.com" class="text-white/50 hover:text-brand-gold transition-colors">tamildevelopmentcouncil@gmail.com</a>
                             </div>
                         </div>
                         <div class="contact-item flex items-center gap-4">
@@ -1398,5 +1571,6 @@
         window.addEventListener("load", adjustTimelineHeight);
         window.addEventListener("resize", adjustTimelineHeight);
     </script>
+	
 </body>
 </html>
