@@ -86,7 +86,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // --- உங்கள் FIREBASE CONFIG ஐ இங்கே பேஸ்ட் செய்யவும் ---
+       
         const firebaseConfig = {
             apiKey: "AIzaSyByFDFlbGgFUTWGui8XUjmb9gv-14LCfUg",
 			authDomain: "nytdc-members.firebaseapp.com",
@@ -104,11 +104,11 @@
             const totalCountEl = document.getElementById('totalCount');
             
             try {
-                // "members" கலெக்ஷனை சமீபத்திய தேதியின் அடிப்படையில் வரிசைப்படுத்துதல்
+                
                 const q = query(collection(db, "members"), orderBy("submittedAt", "desc"));
                 const querySnapshot = await getDocs(q);
                 
-                tableBody.innerHTML = ''; // Loading உரையை நீக்குதல்
+                tableBody.innerHTML = ''; 
                 totalCountEl.innerText = querySnapshot.size;
 
                 if (querySnapshot.empty) {
@@ -119,12 +119,12 @@
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
                     
-                    // தேதியை வாசிக்கக்கூடிய வகையில் மாற்றுதல்
+                  
                     const date = data.submittedAt ? data.submittedAt.toDate().toLocaleDateString('en-US', {
                         year: 'numeric', month: 'short', day: 'numeric'
                     }) : 'N/A';
 
-                    // இன்ட்ரஸ்ட்களை சிறிய சிப்களாக (Chips) மாற்றுதல்
+                  
                     const volChips = data.volunteeringInterests?.map(v => `<span class="bg-white/10 text-[10px] px-2 py-1 rounded-md mr-1 mb-1 inline-block">${v}</span>`).join('') || 'None';
                     const commChips = data.committeeInterests?.map(c => `<span class="bg-brand-gold/20 text-brand-gold text-[10px] px-2 py-1 rounded-md mr-1 mb-1 inline-block">${c}</span>`).join('') || 'None';
 
@@ -160,7 +160,7 @@
             }
         }
 
-        // பக்கத்தை ஏற்றும்போது தரவுகளை எடுத்தல்
+ 
         fetchMembers();
     </script>
 </body>
