@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Us | NYTDC</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            deep: '#8D0E17', crimson: '#C71843', red: '#E5485B',
+                            soft: '#EC6A6A', salmon: '#F09173', orange: '#F5B577',
+                            gold: '#F9D889', pale: '#FCF6AA',
+                        }
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        html { scroll-behavior: smooth; }
+        
+        /* --- REUSED NAV STYLES --- */
+        .nav-entrance { animation: navSlideDown 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes navSlideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        .nav-transparent { background-color: transparent !important; border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important; }
+        .nav-scrolled {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #FCF6AA !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+        }
+        .glass-menu-pill {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 9999px;
+            padding: 0.5rem 1.5rem;
+        }
+        .nav-link { position: relative; transition: color 0.3s ease; }
+        .nav-transparent .nav-link, .nav-transparent .logo-text, .nav-transparent #mobile-menu-btn { color: white; }
+        .nav-scrolled .nav-link, .nav-scrolled .logo-text, .nav-scrolled #mobile-menu-btn { color: #8D0E17; }
+        
+        /* --- HERO & FORM STYLES --- */
+        .join-hero {
+            background: linear-gradient(rgba(141, 14, 23, 0.85), rgba(141, 14, 23, 0.95)), url('heroimage.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(249, 216, 137, 0.2);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .input-field {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #F9D889;
+            outline: none;
+            box-shadow: 0 0 15px rgba(249, 216, 137, 0.1);
+        }
+
+        /* Custom Checkbox Styling */
+        .checkbox-card {
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .checkbox-card:hover {
+            border-color: rgba(249, 216, 137, 0.5);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .checkbox-input:checked + .checkbox-card {
+            border-color: #F9D889;
+            background: rgba(249, 216, 137, 0.1);
+            transform: scale(1.02);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-up { animation: fadeInUp 1s ease-out forwards; }
+
+        /* --- FOOTER STYLES (MATCHING ABOUT.HTML) --- */
+        .footer-brand-bg {
+            background: linear-gradient(180deg, #8D0E17 0%, #700b12 100%);
+            border-top: 6px solid #F9D889;
+            position: relative;
+        }
+        .footer-brand-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle at 2px 2px, rgba(249, 216, 137, 0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
+        .footer-column-title {
+            color: #F9D889;
+            font-size: 0.75rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .footer-column-title::after {
+            content: ''; flex-grow: 1; height: 1px;
+            background: linear-gradient(to right, rgba(249, 216, 137, 0.3), transparent);
+        }
+        .footer-link {
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex; align-items: center;
+        }
+        .footer-link:hover { color: #F9D889; transform: translateX(8px); }
+        .contact-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px; padding: 12px 16px; transition: all 0.3s ease;
+        }
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.07); border-color: rgba(249, 216, 137, 0.3);
+        }
+        .newsletter-container {
+            background: rgba(0, 0, 0, 0.2); border-radius: 24px; padding: 2rem;
+            border: 1px solid rgba(249, 216, 137, 0.1);
+        }
+        .newsletter-input {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white; transition: all 0.3s ease;
+        }
+        .newsletter-input:focus {
+            background: rgba(255, 255, 255, 0.1); border-color: #F9D889; outline: none;
+            box-shadow: 0 0 0 4px rgba(249, 216, 137, 0.1);
+        }
+        .social-pill {
+            width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+            background: rgba(255, 255, 255, 0.05); border-radius: 12px; color: white; transition: all 0.3s ease;
+        }
+        .social-pill:hover { background: #F9D889; color: #8D0E17; transform: translateY(-5px); }
+
+        #mobile-menu {
+            transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1); transform: translateX(100%);
+        }
+        #mobile-menu.active { transform: translateX(0); }
+    </style>
+</head>
+<body class="font-sans bg-brand-deep text-white">
+
+    <nav id="main-nav" class="fixed top-0 left-0 w-full z-50 nav-transparent py-4 transition-all duration-300 nav-entrance">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="group flex items-center gap-3">
+                    <img src="logo.png" alt="Logo" class="h-10 w-auto">
+                    <div class="flex items-center gap-1">
+                        <span class="logo-text font-black text-3xl tracking-tighter">NY<span class="text-brand-gold">TDC</span></span>
+                    </div>
+                </a>
+                <div class="hidden lg:flex items-center space-x-8 text-sm font-bold uppercase tracking-widest glass-menu-pill">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="index.html#activities" class="nav-link">Activities</a>
+                    <a href="#" class="nav-link">Events</a>
+                    <a href="#" class="nav-link">Resources</a>
+                    <a href="#" class="nav-link text-brand-gold">Contact Us</a>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="index.html#donate" class="hidden lg:block bg-brand-gold text-brand-deep px-6 py-2 rounded-full hover:bg-white transition shadow-lg font-bold">Donate</a>
+                    <button id="mobile-menu-btn" class="lg:hidden p-2"><i class="fas fa-bars text-2xl"></i></button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="mobile-menu" class="fixed inset-0 bg-brand-deep z-[60] flex flex-col items-center justify-center space-y-8 text-xl font-black uppercase text-white">
+        <button id="close-menu-btn" class="absolute top-6 right-6 text-3xl p-4"><i class="fas fa-times"></i></button>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="index.html#activities">Activities</a>
+        <a href="#" class="nav-link">Events</a>
+        <a href="#" class="nav-link">Resources</a>
+        <a href="#" class="nav-link text-brand-gold">Contact Us</a>
+        <a href="index.html#donate" class="bg-brand-gold text-brand-deep px-10 py-4 rounded-full">Donate Now</a>
+    </div>
+
+    <section class="join-hero min-h-screen pt-32 pb-24 px-6">
+        <div class="container mx-auto max-w-5xl">
+            <div class="text-center mb-16 animate-fade-up">
+                <h4 class="text-brand-gold font-black uppercase tracking-[0.4em] mb-4 text-xs italic">Become a Member</h4>
+                <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight">Join Our <span class="text-brand-gold">Mission</span></h1>
+                <p class="text-xl text-brand-pale/80 max-w-2xl mx-auto">Fill out the form below to lend your talents and help us build a permanent home for Tamil culture in New York.</p>
+            </div>
+
+            <form class="form-container p-8 md:p-12 rounded-[3rem] animate-fade-up [animation-delay:200ms]">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                    <div class="space-y-2">
+                        <label class="text-xs font-black uppercase tracking-widest text-brand-gold">Full Name</label>
+                        <input type="text" placeholder="John Doe" class="input-field w-full px-6 py-4 rounded-2xl">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-black uppercase tracking-widest text-brand-gold">Email Address</label>
+                        <input type="email" placeholder="john@example.com" class="input-field w-full px-6 py-4 rounded-2xl">
+                    </div>
+					<div class="space-y-2">
+                        <label class="text-xs font-black uppercase tracking-widest text-brand-gold">Phone Number</label>
+                        <input type="tel" placeholder="+1 (555) 000-0000" class="input-field w-full px-6 py-4 rounded-2xl">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-black uppercase tracking-widest text-brand-gold">Date of Birth</label>
+                        <input type="date" class="input-field w-full px-6 py-4 rounded-2xl">
+                    </div>
+                    <div class="md:col-span-2 space-y-2">
+                        <label class="text-xs font-black uppercase tracking-widest text-brand-gold">Profession</label>
+                        <input type="text" placeholder="e.g. Software Engineer, Student, Teacher" class="input-field w-full px-6 py-4 rounded-2xl">
+                    </div>
+                </div>
+
+                <hr class="border-white/10 mb-12">
+
+                <div class="mb-12">
+                    <h3 class="text-2xl font-black mb-6 text-white">What type of <span class="text-brand-gold">volunteering</span> are you interested in?</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <label class="relative">
+                            <input type="checkbox" class="hidden checkbox-input" name="volunteer">
+                            <div class="checkbox-card p-4 rounded-xl text-sm font-semibold flex items-center gap-3">
+                                <i class="fas fa-users text-brand-gold"></i> In person event support
+                            </div>
+                        </label>
+                        <label class="relative">
+                            <input type="checkbox" class="hidden checkbox-input" name="volunteer">
+                            <div class="checkbox-card p-4 rounded-xl text-sm font-semibold flex items-center gap-3">
+                                <i class="fas fa-laptop text-brand-gold"></i> Virtual event support
+                            </div>
+                        </label>
+                        <label class="relative">
+                            <input type="checkbox" class="hidden checkbox-input" name="volunteer">
+                            <div class="checkbox-card p-4 rounded-xl text-sm font-semibold flex items-center gap-3">
+                                <i class="fas fa-bullhorn text-brand-gold"></i> Outreach & Engagement
+                            </div>
+                        </label>
+                        <label class="relative">
+                            <input type="checkbox" class="hidden checkbox-input" name="volunteer">
+                            <div class="checkbox-card p-4 rounded-xl text-sm font-semibold flex items-center gap-3">
+                                <i class="fas fa-hand-holding-usd text-brand-gold"></i> Fundraising
+                            </div>
+                        </label>
+                        <label class="relative">
+                            <input type="checkbox" class="hidden checkbox-input" name="volunteer">
+                            <div class="checkbox-card p-4 rounded-xl text-sm font-semibold flex items-center gap-3">
+                                <i class="fas fa-pen-fancy text-brand-gold"></i> Grant writing
+                            </div>
+                        </label>
+                        <label class="relative">
+                            <input type="checkbox" class="hidden checkbox-input" name="volunteer">
+                            <div class="checkbox-card p-4 rounded-xl text-sm font-semibold flex items-center gap-3">
+                                <i class="fas fa-hashtag text-brand-gold"></i> Social Media & Marketing
+                            </div>
+                        </label>
+                        <label class="relative">
+                            <input type="checkbox" class="hidden checkbox-input" name="volunteer">
+                            <div class="checkbox-card p-4 rounded-xl text-sm font-semibold flex items-center gap-3">
+                                <i class="fas fa-chalkboard-teacher text-brand-gold"></i> Workshop Assistant
+                            </div>
+                        </label>
+                        <label class="relative">
+                            <input type="checkbox" class="hidden checkbox-input" name="volunteer">
+                            <div class="checkbox-card p-4 rounded-xl text-sm font-semibold flex items-center gap-3">
+                                <i class="fas fa-user-friends text-brand-gold"></i> Mentoring / Coaching
+                            </div>
+                        </label>
+                        <label class="relative">
+                            <input type="checkbox" class="hidden checkbox-input" name="volunteer">
+                            <div class="checkbox-card p-4 rounded-xl text-sm font-semibold flex items-center gap-3">
+                                <i class="fas fa-microphone text-brand-gold"></i> Event Hosting (MC)
+                            </div>
+                        </label>
+                        <label class="relative">
+                            <input type="checkbox" class="hidden checkbox-input" name="volunteer">
+                            <div class="checkbox-card p-4 rounded-xl text-sm font-semibold flex items-center gap-3">
+                                <i class="fas fa-camera text-brand-gold"></i> Photography
+                            </div>
+                        </label>
+                        <label class="relative">
+                            <input type="checkbox" class="hidden checkbox-input" name="volunteer">
+                            <div class="checkbox-card p-4 rounded-xl text-sm font-semibold flex items-center gap-3">
+                                <i class="fas fa-language text-brand-gold"></i> Translation (En-Ta)
+                            </div>
+                        </label>
+                        <label class="relative">
+                            <input type="checkbox" class="hidden checkbox-input" name="volunteer">
+                            <div class="checkbox-card p-4 rounded-xl text-sm font-semibold flex items-center gap-3">
+                                <i class="fas fa-plus-circle text-brand-gold"></i> Other
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mb-12">
+                    <h3 class="text-2xl font-black mb-6 text-white">Interested in joining or <span class="text-brand-gold">leading</span> a committee?</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <label class="relative">
+                            <input type="checkbox" class="hidden checkbox-input" name="committee">
+                            <div class="checkbox-card p-5 rounded-2xl flex items-center justify-between">
+                                <span class="font-black text-xs uppercase tracking-widest">Youth & Education</span>
+                                <i class="fas fa-plus text-[10px] opacity-30"></i>
+                            </div>
+                        </label>
+                        <label class="relative">
+                            <input type="checkbox" class="hidden checkbox-input" name="committee">
+                            <div class="checkbox-card p-5 rounded-2xl flex items-center justify-between">
+                                <span class="font-black text-xs uppercase tracking-widest">Finance & Fundraising</span>
+                                <i class="fas fa-plus text-[10px] opacity-30"></i>
+                            </div>
+                        </label>
+                        <label class="relative">
+                            <input type="checkbox" class="hidden checkbox-input" name="committee">
+                            <div class="checkbox-card p-5 rounded-2xl flex items-center justify-between">
+                                <span class="font-black text-xs uppercase tracking-widest">Business & Marketing</span>
+                                <i class="fas fa-plus text-[10px] opacity-30"></i>
+                            </div>
+                        </label>
+                        <label class="relative">
+                            <input type="checkbox" class="hidden checkbox-input" name="committee">
+                            <div class="checkbox-card p-5 rounded-2xl flex items-center justify-between">
+                                <span class="font-black text-xs uppercase tracking-widest">Cultural & Arts</span>
+                                <i class="fas fa-plus text-[10px] opacity-30"></i>
+                            </div>
+                        </label>
+                        <label class="relative">
+                            <input type="checkbox" class="hidden checkbox-input" name="committee">
+                            <div class="checkbox-card p-5 rounded-2xl flex items-center justify-between">
+                                <span class="font-black text-xs uppercase tracking-widest">Community & Welfare</span>
+                                <i class="fas fa-plus text-[10px] opacity-30"></i>
+                            </div>
+                        </label>
+                        <label class="relative">
+                            <input type="checkbox" class="hidden checkbox-input" name="committee">
+                            <div class="checkbox-card p-5 rounded-2xl flex items-center justify-between">
+                                <span class="font-black text-xs uppercase tracking-widest">Sports Committee</span>
+                                <i class="fas fa-plus text-[10px] opacity-30"></i>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-brand-gold text-brand-deep font-black py-6 rounded-2xl hover:bg-white transition-all transform hover:-translate-y-1 shadow-2xl uppercase tracking-[0.3em] text-sm">
+                    Submit Application
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer-brand-bg pt-24 pb-12 text-white overflow-hidden">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-20">
+                
+                <div class="lg:col-span-4">
+                    <div class="flex items-center gap-4 mb-8">
+                        <img src="logo.png" alt="NYTDC Logo" class="h-36 w-auto">
+                        <div>
+                            <h2 class="text-3xl font-black tracking-tighter leading-none">NY<span class="text-brand-gold">TDC</span></h2>
+                            <p class="text-brand-gold/60 text-[10px] uppercase tracking-[0.3em] font-bold mt-1">New York Tamil Center</p>
+                        </div>
+                    </div>
+                    <p class="text-white/60 text-sm leading-relaxed mb-8 max-w-sm">
+                        As a <u><a href='https://www.nycompanyregistry.com/companies/new-york-tamil-development-council-inc/'>registered 501(c)(3) non-profit </a></u>, we are dedicated to building a permanent home for Tamil culture, arts, and education in the heart of New York.
+                    </p>
+                    <div class="flex gap-3">
+                        <a href="https://www.facebook.com/NYTDCOfficial" class="social-pill" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/nytdcofficial" class="social-pill" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-pill" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                        <a href="#" class="social-pill" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.linkedin.com/company/nytdc" class="social-pill" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2">
+                    <h4 class="footer-column-title">Explore</h4>
+                    <ul class="space-y-4 text-sm font-semibold">
+                        <li><a href="about.html" class="footer-link">About Us</a></li>
+                        <li><a href="#roadmap" class="footer-link">2033 Roadmap</a></li>
+                        <li><a href="#activities" class="footer-link">Our Activities</a></li>
+                        <li><a href="#donate" class="footer-link">Donate Now</a></li>
+                        <li><a href="#" class="footer-link">Volunteer</a></li>
+                    </ul>
+                </div>
+
+                <div class="lg:col-span-3">
+                    <h4 class="footer-column-title">Get In Touch</h4>
+                    <div class="space-y-4">
+                        <div class="contact-item flex items-center gap-4">
+                            <div class="text-brand-gold"><i class="fas fa-map-marker-alt"></i></div>
+                            <div class="text-xs">
+                                <p class="text-white font-bold">Location</p>
+                                <p class="text-white/50">New York, NY 10301</p>
+                            </div>
+                        </div>
+                        <div class="contact-item flex items-center gap-4">
+                            <div class="text-brand-gold"><i class="fas fa-envelope-open-text"></i></div>
+                            <div class="text-xs">
+                                <p class="text-white font-bold">Email Us</p>
+                                <a href="mailto:tamildevelopmentcouncil@gmail.com" class="text-white/50 hover:text-brand-gold transition-colors">tamildevelopmentcouncil@gmail.com</a>
+                            </div>
+                        </div>
+                        <div class="contact-item flex items-center gap-4">
+                            <div class="text-brand-gold"><i class="fas fa-phone-alt"></i></div>
+                            <div class="text-xs">
+                                <p class="text-white font-bold">Contact</p>
+                                <p class="text-white/50">Inquiry via Email</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-3">
+                    <div class="newsletter-container">
+                        <h4 class="text-brand-gold font-black uppercase tracking-widest text-xs mb-4">Mailing List</h4>
+                        <p class="text-white/60 text-xs mb-6 leading-relaxed">Stay updated with our construction progress and community events.</p>
+                        <form class="space-y-3">
+                            <input type="email" placeholder="Email address" class="newsletter-input w-full px-5 py-4 rounded-xl text-xs">
+                            <button class="w-full bg-brand-gold hover:bg-white text-brand-deep font-black py-4 rounded-xl transition-all duration-300 uppercase tracking-[0.2em] text-[10px]">
+                                Join Now
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex items-center gap-4">
+                    <span class="px-3 py-1 bg-white/5 rounded-md text-[9px] font-bold text-brand-gold border border-brand-gold/20 uppercase tracking-widest">501(c)(3) Certified</span>
+                    <p class="text-[10px] uppercase tracking-widest font-bold text-white/30">© 2026 New York Tamil Community</p>
+                </div>
+                <div class="flex gap-8 text-[10px] uppercase tracking-[0.2em] font-bold text-white/40">
+                    <a href="#" class="hover:text-brand-gold transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-brand-gold transition-colors">Terms</a>
+                    <a href="#" class="hover:text-brand-gold transition-colors">Accessibility</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Nav Scroll Logic
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('main-nav');
+            if (window.scrollY > 50) nav.classList.replace('nav-transparent', 'nav-scrolled');
+            else nav.classList.replace('nav-scrolled', 'nav-transparent');
+        });
+
+        // Mobile Menu Logic
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const closeBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => mobileMenu.classList.add('active'));
+        closeBtn.addEventListener('click', () => mobileMenu.classList.remove('active'));
+    </script>
+	<script type="module">
+  
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+ 
+  const firebaseConfig = {
+    apiKey: "AIzaSyByFDFlbGgFUTWGui8XUjmb9gv-14LCfUg",
+  authDomain: "nytdc-members.firebaseapp.com",
+  projectId: "nytdc-members",
+  storageBucket: "nytdc-members.firebasestorage.app",
+  messagingSenderId: "568774470612",
+  appId: "1:568774470612:web:4bba81bf7b92cc249fc441"
+  };
+
+ 
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  
+  const joinForm = document.querySelector('form'); 
+
+ 
+  joinForm.addEventListener('submit', async (e) => {
+    e.preventDefault(); 
+
+   
+    const submitBtn = joinForm.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn.innerText;
+    submitBtn.innerText = "Submitting...";
+    submitBtn.disabled = true;
+
+    try {
+        const formData = {
+            fullName: document.querySelector('input[placeholder="John Doe"]').value,
+            email: document.querySelector('input[type="email"]').value,
+            phone: document.querySelector('input[type="tel"]').value,
+            dob: document.querySelector('input[type="date"]').value,
+            profession: document.querySelector('input[placeholder*="Software Engineer"]').value,
+            
+
+            volunteeringInterests: Array.from(document.querySelectorAll('input[name="volunteer"]:checked')).map(cb => cb.parentNode.innerText.trim()),
+            committeeInterests: Array.from(document.querySelectorAll('input[name="committee"]:checked')).map(cb => cb.parentNode.querySelector('span').innerText.trim()),
+            
+            submittedAt: serverTimestamp() 
+        };
+
+        
+        await addDoc(collection(db, "members"), formData);
+
+       
+        alert("Thank You! for joining with US.");
+        
+        
+        joinForm.reset();
+
+    } catch (error) {
+        console.error("Error adding document: ", error);
+        alert("Sorry! Please Try again");
+    } finally {
+        
+        submitBtn.innerText = originalBtnText;
+        submitBtn.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>

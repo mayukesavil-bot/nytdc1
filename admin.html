@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Directory | NYTDC</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { deep: '#8D0E17', gold: '#F9D889' }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        .glass-table {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(249, 216, 137, 0.2);
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #F9D889; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-brand-deep text-white font-sans min-h-screen p-4 md:p-12">
+
+    <div class="container mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
+            <div>
+                <h1 class="text-4xl font-black tracking-tight text-white mb-2">Registered <span class="text-brand-gold">Members</span></h1>
+                <p class="text-white/60 text-sm italic">NYTDC Community Development Council Database</p>
+            </div>
+            <div class="flex gap-4">
+                <button onclick="window.location.reload()" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg transition border border-white/10">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+                <a href="joinwithus.html" class="bg-brand-gold text-brand-deep font-black px-6 py-2 rounded-lg hover:bg-white transition shadow-lg">
+                    <i class="fas fa-plus mr-2"></i> Add New
+                </a>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="glass-table p-6 rounded-3xl">
+                <p class="text-xs font-bold text-brand-gold uppercase tracking-widest mb-1">Total Members</p>
+                <h2 id="totalCount" class="text-3xl font-black">0</h2>
+            </div>
+        </div>
+
+        <div class="glass-table rounded-[2rem] overflow-hidden">
+            <div class="overflow-x-auto custom-scrollbar">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-black/20 text-brand-gold text-xs uppercase tracking-[0.2em] font-black">
+                            <th class="px-8 py-6">Name & Profession</th>
+                            <th class="px-8 py-6">Contact Info</th>
+                            <th class="px-8 py-6">Volunteering Interests</th>
+                            <th class="px-8 py-6">Committees</th>
+                            <th class="px-8 py-6 text-right">Joined Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="membersTableBody" class="text-sm divide-y divide-white/5">
+                        <tr id="loadingState">
+                            <td colspan="5" class="px-8 py-20 text-center">
+                                <div class="flex flex-col items-center gap-4">
+                                    <i class="fas fa-spinner fa-spin text-4xl text-brand-gold"></i>
+                                    <p class="text-white/40 font-bold uppercase tracking-widest text-xs">Fetching Records...</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // --- உங்கள் FIREBASE CONFIG ஐ இங்கே பேஸ்ட் செய்யவும் ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyByFDFlbGgFUTWGui8XUjmb9gv-14LCfUg",
+			authDomain: "nytdc-members.firebaseapp.com",
+			projectId: "nytdc-members",
+			storageBucket: "nytdc-members.firebasestorage.app",
+			messagingSenderId: "568774470612",
+			appId: "1:568774470612:web:4bba81bf7b92cc249fc441"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        async function fetchMembers() {
+            const tableBody = document.getElementById('membersTableBody');
+            const totalCountEl = document.getElementById('totalCount');
+            
+            try {
+                // "members" கலெக்ஷனை சமீபத்திய தேதியின் அடிப்படையில் வரிசைப்படுத்துதல்
+                const q = query(collection(db, "members"), orderBy("submittedAt", "desc"));
+                const querySnapshot = await getDocs(q);
+                
+                tableBody.innerHTML = ''; // Loading உரையை நீக்குதல்
+                totalCountEl.innerText = querySnapshot.size;
+
+                if (querySnapshot.empty) {
+                    tableBody.innerHTML = `<tr><td colspan="5" class="px-8 py-12 text-center text-white/40">No records found.</td></tr>`;
+                    return;
+                }
+
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    
+                    // தேதியை வாசிக்கக்கூடிய வகையில் மாற்றுதல்
+                    const date = data.submittedAt ? data.submittedAt.toDate().toLocaleDateString('en-US', {
+                        year: 'numeric', month: 'short', day: 'numeric'
+                    }) : 'N/A';
+
+                    // இன்ட்ரஸ்ட்களை சிறிய சிப்களாக (Chips) மாற்றுதல்
+                    const volChips = data.volunteeringInterests?.map(v => `<span class="bg-white/10 text-[10px] px-2 py-1 rounded-md mr-1 mb-1 inline-block">${v}</span>`).join('') || 'None';
+                    const commChips = data.committeeInterests?.map(c => `<span class="bg-brand-gold/20 text-brand-gold text-[10px] px-2 py-1 rounded-md mr-1 mb-1 inline-block">${c}</span>`).join('') || 'None';
+
+                    const row = `
+                        <tr class="hover:bg-white/5 transition-colors group">
+                            <td class="px-8 py-6">
+                                <div class="font-black text-white text-base">${data.fullName}</div>
+                                <div class="text-brand-gold/60 text-xs font-bold uppercase tracking-wider">${data.profession || 'N/A'}</div>
+                            </td>
+                            <td class="px-8 py-6">
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-white/80"><i class="far fa-envelope text-brand-gold mr-2 text-xs"></i>${data.email}</span>
+                                    <span class="text-white/80"><i class="fas fa-phone-alt text-brand-gold mr-2 text-xs"></i>${data.phone}</span>
+                                </div>
+                            </td>
+                            <td class="px-8 py-6 max-w-xs">
+                                <div class="flex flex-wrap">${volChips}</div>
+                            </td>
+                            <td class="px-8 py-6">
+                                <div class="flex flex-wrap">${commChips}</div>
+                            </td>
+                            <td class="px-8 py-6 text-right font-mono text-white/40 font-bold">
+                                ${date}
+                            </td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += row;
+                });
+
+            } catch (error) {
+                console.error("Error fetching members: ", error);
+                tableBody.innerHTML = `<tr><td colspan="5" class="px-8 py-12 text-center text-red-400">Error loading data. Please check Firebase Rules.</td></tr>`;
+            }
+        }
+
+        // பக்கத்தை ஏற்றும்போது தரவுகளை எடுத்தல்
+        fetchMembers();
+    </script>
+</body>
+</html>
