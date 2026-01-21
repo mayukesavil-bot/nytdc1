@@ -834,7 +834,20 @@
             color: #F9D889;
             transform: translateX(5px);
         }
+		/* Carousel Popup Styles */
+#photo-modal.active {
+    display: flex;
+    animation: fadeIn 0.4s ease-out;
+}
 
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+#modal-img {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
     </style>
 </head>
@@ -1187,37 +1200,37 @@
                     </div>
                 </a>
 
-                <a href="events.html" class="opacity-0 transition-all duration-1000 delay-300 transform translate-y-12 upcoming-card group p-8 border-t-4 border-t-brand-gold">
-                    <div class="flex justify-between items-start mb-8">
-                        <div class="event-date-box">
-                            <span class="block text-2xl font-black">14</span>
-                            <span class="block text-[10px] font-bold uppercase tracking-wider">Apr</span>
-                        </div>
-                        <div class="card-link-arrow"><i class="fas fa-arrow-right"></i></div>
-                    </div>
+               <div class="opacity-0 transition-all duration-1000 delay-300 transform translate-y-12 upcoming-card group p-8 border-t-4 border-t-brand-gold bg-white shadow-lg">
+    <div class="flex justify-between items-start mb-8">
+        <div class="event-date-box">
+            <span class="block text-2xl font-black">31</span>
+            <span class="block text-[10px] font-bold uppercase tracking-wider">Jan</span>
+        </div>
+        <div class="card-link-arrow"><i class="fas fa-arrow-right"></i></div>
+    </div>
 
-                    <div class="relative z-10 mt-2">
-                        <h4 class="text-brand-crimson font-bold uppercase tracking-widest text-xs mb-2">Upcoming Event</h4>
-                        <h3 class="text-3xl font-black text-brand-deep mb-4 leading-none">
-                            Chithirai <br>Puthandu <span class="text-brand-gold">2026</span>
-                        </h3>
-                        
-                        <div class="space-y-3 mt-6">
-                            <div class="flex items-center gap-3 text-gray-600">
-                                <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-brand-deep"><i class="far fa-clock"></i></div>
-                                <span class="text-sm font-medium">10:00 AM - 4:00 PM</span>
-                            </div>
-                            <div class="flex items-center gap-3 text-gray-600">
-                                <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-brand-deep"><i class="fas fa-map-marker-alt"></i></div>
-                                <span class="text-sm font-medium">Snug Harbor Cultural Center</span>
-                            </div>
-                        </div>
+    <div class="relative z-10 mt-2">
+        <h4 class="text-brand-crimson font-bold uppercase tracking-widest text-xs mb-2">Upcoming Event</h4>
+        <h3 class="text-3xl font-black text-brand-deep mb-4 leading-none">
+            NYTDC's First Ever <br>Public Forum! <span class="text-brand-gold">2026</span>
+        </h3>
+        
+        <div class="space-y-3 mt-6">
+            <div class="flex items-center gap-3 text-gray-600">
+                <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-brand-deep"><i class="far fa-clock"></i></div>
+                <span class="text-sm font-medium">02:30 PM - 05:30 PM</span>
+            </div>
+            <div class="flex items-center gap-3 text-gray-600">
+                <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-brand-deep"><i class="fas fa-map-marker-alt"></i></div>
+                <span class="text-sm font-medium">Trinity Lutheran Church - 309 St Pauls Ave, Staten Island, NY</span>
+            </div>
+        </div>
 
-                        <button class="mt-8 w-full py-3 rounded-xl border border-brand-deep text-brand-deep font-bold text-sm uppercase hover:bg-brand-deep hover:text-white transition-all">
-                            Get Tickets
-                        </button>
-                    </div>
-                </a>
+        <button onclick="openCarousel()" class="mt-8 bg-brand-deep text-white px-6 py-2 rounded-full font-bold hover:bg-brand-crimson transition shadow-md">
+            Get more Details
+        </button>
+    </div>
+</div>
 
                 <a href="gallery.html" class="opacity-0 transition-all duration-1000 delay-500 transform translate-y-12 upcoming-card group p-8">
                     <div class="flex justify-between items-center mb-6">
@@ -1468,6 +1481,30 @@
         </div>
     </footer>
 
+   <div id="photo-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/95 backdrop-blur-md">
+        <button onclick="closeModal()" class="absolute top-6 right-6 text-white text-4xl hover:text-brand-gold transition-colors z-[110]">
+            <i class="fas fa-times"></i>
+        </button>
+    
+        <div class="relative w-full max-w-5xl px-4 flex items-center justify-center">
+            <button onclick="changeSlide(-1)" class="absolute left-4 md:left-10 text-white text-3xl hover:text-brand-gold transition-all z-[110] bg-black/20 p-4 rounded-full">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+    
+            <div class="overflow-hidden rounded-2xl shadow-2xl border-4 border-white/10">
+                <img id="modal-img" src="" alt="Gallery Image" class="max-h-[80vh] w-full object-contain transition-opacity duration-500">
+            </div>
+    
+            <button onclick="changeSlide(1)" class="absolute right-4 md:right-10 text-white text-3xl hover:text-brand-gold transition-all z-[110] bg-black/20 p-4 rounded-full">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+        
+        <div id="image-counter" class="absolute bottom-10 text-white font-bold tracking-widest text-lg bg-brand-deep/50 px-6 py-2 rounded-full border border-brand-gold/30">
+            1 / 3
+        </div>
+    </div>
+
     <script>
         // Mobile Menu Logic
         const menuBtn = document.getElementById('mobile-menu-btn');
@@ -1477,7 +1514,6 @@
 
         function toggleMenu() {
             mobileMenu.classList.toggle('active');
-            // Prevent scrolling when menu is open
             if(mobileMenu.classList.contains('active')) {
                 document.body.style.overflow = 'hidden';
             } else {
@@ -1485,10 +1521,9 @@
             }
         }
 
-        menuBtn.addEventListener('click', toggleMenu);
-        closeBtn.addEventListener('click', toggleMenu);
+        if(menuBtn) menuBtn.addEventListener('click', toggleMenu);
+        if(closeBtn) closeBtn.addEventListener('click', toggleMenu);
         
-        // Close menu when a link is clicked
         mobileLinks.forEach(link => {
             link.addEventListener('click', toggleMenu);
         });
@@ -1518,21 +1553,17 @@
             else nav.classList.replace('nav-scrolled', 'nav-transparent');
         });
 
-        // Updated Observer for animations
+        // Observer for animations
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    // Add active class to the parent section for staggered triggers
                     entry.target.classList.add('active');
-
                     entry.target.querySelectorAll('.opacity-0').forEach(el => {
                         el.classList.remove('opacity-0', 'translate-y-4', 'translate-y-12', 'translate-x-4');
                     });
-                    
                     entry.target.querySelectorAll('.meaning-card').forEach(el => {
                         el.classList.add('animate-in');
                     });
-
                     const line = entry.target.querySelector('.reveal-line');
                     if (line) line.classList.add('reveal-line-anim');
                 }
@@ -1540,7 +1571,7 @@
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal-trigger').forEach(trigger => observer.observe(trigger));
 
-        // --- SECTION 3 LOGIC ---
+        // Roadmap Logic
         function timelineScroll(distance) {
             document.getElementById('roadmap-list').scrollBy({ left: distance, behavior: 'smooth' });
         }
@@ -1564,15 +1595,81 @@
             });
 
             const verticalBuffer = isMobile ? finalBoxHeight + 60 : finalBoxHeight + 100;
-            ol.style.paddingTop = verticalBuffer + "px";
-            ol.style.paddingBottom = verticalBuffer + "px";
+            if(ol) {
+                ol.style.paddingTop = verticalBuffer + "px";
+                ol.style.paddingBottom = verticalBuffer + "px";
+            }
         }
 
         window.addEventListener("load", adjustTimelineHeight);
         window.addEventListener("resize", adjustTimelineHeight);
+        
+        // --- FIXED CAROUSEL LOGIC ---
+        // Ensure these match your actual file names exactly!
+        const images = [
+            'upcoming-event1.jpg', 
+            'upcoming-event2.jpg',
+            'upcoming-event3.jpg'
+        ];
+
+        let currentIdx = 0;
+        
+        // Select elements
+        const modal = document.getElementById('photo-modal');
+        const modalImg = document.getElementById('modal-img');
+        const counter = document.getElementById('image-counter');
+
+        function openCarousel() {
+            if(!modal) return; // Safety check
+            currentIdx = 0;
+            updateModalImage();
+            
+            // FIX: Remove 'hidden' so it becomes visible
+            modal.classList.remove('hidden'); 
+            modal.classList.add('active');
+            
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeModal() {
+            if(!modal) return;
+            
+            // FIX: Add 'hidden' back
+            modal.classList.add('hidden');
+            modal.classList.remove('active');
+            
+            document.body.style.overflow = 'auto'; 
+        }
+
+        function changeSlide(direction) {
+            currentIdx += direction;
+            if (currentIdx >= images.length) currentIdx = 0;
+            if (currentIdx < 0) currentIdx = images.length - 1;
+            
+            modalImg.style.opacity = '0';
+            setTimeout(() => {
+                updateModalImage();
+                modalImg.style.opacity = '1';
+            }, 200);
+        }
+
+        function updateModalImage() {
+            if(modalImg && counter) {
+                modalImg.src = images[currentIdx];
+                counter.innerText = `${currentIdx + 1} / ${images.length}`;
+            }
+        }
+
+        // Close listeners
+        if(modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
     </script>
-	
 </body>
-
 </html>
-
