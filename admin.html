@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Member Directory | NYTDC</title>
+    <title>Admin Portal | NYTDC</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -28,140 +28,239 @@
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #F9D889; border-radius: 10px; }
+        .member-row:hover { background: rgba(255, 255, 255, 0.05); }
+        #adminContent { display: none; }
     </style>
 </head>
-<body class="bg-brand-deep text-white font-sans min-h-screen p-4 md:p-12">
+<body class="bg-brand-deep text-white font-sans min-h-screen">
 
-    <div class="container mx-auto">
-        <div class="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
-            <div>
-                <h1 class="text-4xl font-black tracking-tight text-white mb-2">Registered <span class="text-brand-gold">Members</span></h1>
-                <p class="text-white/60 text-sm italic">NYTDC Community Development Council Database</p>
+    <div id="loginOverlay" class="fixed inset-0 bg-brand-deep flex items-center justify-center z-[100] p-6">
+        <div class="glass-table p-10 rounded-[2.5rem] w-full max-w-md border border-brand-gold/20 shadow-2xl">
+            <div class="text-center mb-8">
+                <div class="inline-block p-4 rounded-full bg-brand-gold/10 mb-4">
+                    <i class="fas fa-user-shield text-3xl text-brand-gold"></i>
+                </div>
+                <h2 class="text-2xl font-black text-white uppercase tracking-tighter">Admin <span class="text-brand-gold">Login</span></h2>
+                <p class="text-white/40 text-xs mt-2 uppercase tracking-widest">NYTDC Private Access</p>
             </div>
-            <div class="flex gap-4">
-                <button onclick="window.location.reload()" class="bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg transition border border-white/10">
-                    <i class="fas fa-sync-alt"></i> Refresh
+            
+            <div class="space-y-4">
+                <div class="relative">
+                    <i class="fas fa-envelope absolute left-4 top-4 text-brand-gold/50"></i>
+                    <input type="email" id="email" placeholder="Email Address" class="w-full bg-white/5 border border-white/10 p-4 pl-12 rounded-2xl text-white outline-none focus:border-brand-gold transition-all">
+                </div>
+                <div class="relative">
+                    <i class="fas fa-lock absolute left-4 top-4 text-brand-gold/50"></i>
+                    <input type="password" id="password" placeholder="Password" class="w-full bg-white/5 border border-white/10 p-4 pl-12 rounded-2xl text-white outline-none focus:border-brand-gold transition-all">
+                </div>
+                <button onclick="handleLogin()" id="loginBtn" class="w-full bg-brand-gold text-brand-deep font-black py-4 rounded-2xl hover:scale-[1.02] active:scale-[0.98] transition-all uppercase tracking-widest text-sm shadow-lg shadow-brand-gold/10">
+                    Sign In
                 </button>
-                <a href="joinwithus.html" class="bg-brand-gold text-brand-deep font-black px-6 py-2 rounded-lg hover:bg-white transition shadow-lg">
-                    <i class="fas fa-plus mr-2"></i> Add New
-                </a>
+            </div>
+            <p id="loginError" class="text-red-400 text-[10px] mt-4 text-center font-bold uppercase hidden"></p>
+        </div>
+    </div>
+
+    <div id="adminContent" class="p-4 md:p-12 container mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-12 gap-8">
+            <div>
+                <h1 class="text-4xl font-black tracking-tight text-white mb-2">Member <span class="text-brand-gold">Database</span></h1>
+                <p class="text-white/60 text-sm italic">NYTDC Community Database Management</p>
+            </div>
+
+            <div class="flex flex-col md:flex-row items-center gap-6">
+                <div class="flex gap-4">
+                    <div class="glass-table px-6 py-4 rounded-2xl border-l-4 border-green-500 min-w-[160px]">
+                        <p class="text-[10px] font-bold text-green-400 uppercase tracking-widest mb-1">Approved</p>
+                        <h2 id="approvedCount" class="text-2xl font-black">0</h2>
+                    </div>
+                    <div class="glass-table px-6 py-4 rounded-2xl border-l-4 border-brand-gold min-w-[160px]">
+                        <p class="text-[10px] font-bold text-brand-gold uppercase tracking-widest mb-1">Pending</p>
+                        <h2 id="pendingCount" class="text-2xl font-black">0</h2>
+                    </div>
+                </div>
+                
+                <div class="flex gap-2">
+                    <button onclick="window.location.reload()" class="bg-white/10 hover:bg-white/20 p-4 rounded-2xl transition border border-white/10" title="Refresh">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <button onclick="handleLogout()" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 p-4 rounded-2xl transition border border-red-500/20" title="Logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div class="glass-table p-6 rounded-3xl">
-                <p class="text-xs font-bold text-brand-gold uppercase tracking-widest mb-1">Total Members</p>
-                <h2 id="totalCount" class="text-3xl font-black">0</h2>
+        <div class="mb-16">
+            <h2 class="text-2xl font-black text-brand-gold mb-6 uppercase tracking-widest flex items-center gap-3">
+                <i class="fas fa-file-signature text-sm"></i> Applications for Review
+            </h2>
+            <div class="glass-table rounded-[2.5rem] overflow-hidden">
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-black/20 text-brand-gold text-[10px] uppercase tracking-[0.2em] font-black">
+                                <th class="px-6 py-6">Primary Member</th>
+                                <th class="px-6 py-6">Contact & Address</th>
+                                <th class="px-6 py-6 text-center">Household</th>
+                                <th class="px-6 py-6">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reviewTableBody" class="text-sm divide-y divide-white/5"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <div class="glass-table rounded-[2rem] overflow-hidden">
-            <div class="overflow-x-auto custom-scrollbar">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-black/20 text-brand-gold text-xs uppercase tracking-[0.2em] font-black">
-                            <th class="px-8 py-6">Name & Profession</th>
-                            <th class="px-8 py-6">Contact Info</th>
-                            <th class="px-8 py-6">Volunteering Interests</th>
-                            <th class="px-8 py-6">Committees</th>
-                            <th class="px-8 py-6 text-right">Joined Date</th>
-                        </tr>
-                    </thead>
-                    <tbody id="membersTableBody" class="text-sm divide-y divide-white/5">
-                        <tr id="loadingState">
-                            <td colspan="5" class="px-8 py-20 text-center">
-                                <div class="flex flex-col items-center gap-4">
-                                    <i class="fas fa-spinner fa-spin text-4xl text-brand-gold"></i>
-                                    <p class="text-white/40 font-bold uppercase tracking-widest text-xs">Fetching Records...</p>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div>
+            <h2 class="text-2xl font-black text-green-400 mb-6 uppercase tracking-widest flex items-center gap-3">
+                <i class="fas fa-user-check text-sm"></i> Approved Members
+            </h2>
+            <div class="glass-table rounded-[2.5rem] overflow-hidden">
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-black/20 text-brand-gold text-[10px] uppercase tracking-[0.2em] font-black">
+                                <th class="px-6 py-6">Primary Member</th>
+                                <th class="px-6 py-6">Contact & Address</th>
+                                <th class="px-6 py-6 text-center">Household</th>
+                                <th class="px-6 py-6 text-right">Approval Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="approvedTableBody" class="text-sm divide-y divide-white/5"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, doc, deleteDoc, addDoc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-       
         const firebaseConfig = {
             apiKey: "AIzaSyByFDFlbGgFUTWGui8XUjmb9gv-14LCfUg",
-			authDomain: "nytdc-members.firebaseapp.com",
-			projectId: "nytdc-members",
-			storageBucket: "nytdc-members.firebasestorage.app",
-			messagingSenderId: "568774470612",
-			appId: "1:568774470612:web:4bba81bf7b92cc249fc441"
+            authDomain: "nytdc-members.firebaseapp.com",
+            projectId: "nytdc-members",
+            storageBucket: "nytdc-members.firebasestorage.app",
+            messagingSenderId: "568774470612",
+            appId: "1:568774470612:web:4bba81bf7b92cc249fc441"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const auth = getAuth(app);
 
-        async function fetchMembers() {
-            const tableBody = document.getElementById('membersTableBody');
-            const totalCountEl = document.getElementById('totalCount');
+        // --- AUTH ACTIONS ---
+        window.handleLogin = async () => {
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('password').value;
+            const btn = document.getElementById('loginBtn');
+            const error = document.getElementById('loginError');
+
+            try {
+                btn.innerText = "VERIFYING...";
+                btn.disabled = true;
+                await signInWithEmailAndPassword(auth, email, pass);
+            } catch (e) {
+                error.innerText = "Invalid Admin Credentials";
+                error.classList.remove('hidden');
+                btn.innerText = "SIGN IN";
+                btn.disabled = false;
+            }
+        };
+
+        window.handleLogout = () => signOut(auth);
+
+        // --- SESSION OBSERVER ---
+        onAuthStateChanged(auth, (user) => {
+            const overlay = document.getElementById('loginOverlay');
+            const content = document.getElementById('adminContent');
+            if (user) {
+                overlay.style.display = 'none';
+                content.style.display = 'block';
+                fetchData();
+            } else {
+                overlay.style.display = 'flex';
+                content.style.display = 'none';
+            }
+        });
+
+        // --- DATA LOGIC ---
+        window.approveMember = async (id, dataString) => {
+            if (!confirm("Confirm Approval?")) return;
+            try {
+                const data = JSON.parse(decodeURIComponent(dataString));
+                await addDoc(collection(db, "approved_members"), { ...data, approvedAt: serverTimestamp() });
+                await deleteDoc(doc(db, "members", id));
+                fetchData();
+            } catch (e) { alert("Error approving: " + e.message); }
+        };
+
+        window.rejectMember = async (id) => {
+            if (!confirm("Permanently delete this application?")) return;
+            try {
+                await deleteDoc(doc(db, "members", id));
+                fetchData();
+            } catch (e) { alert("Error deleting: " + e.message); }
+        };
+
+        async function fetchData() {
+            const reviewBody = document.getElementById('reviewTableBody');
+            const approvedBody = document.getElementById('approvedTableBody');
             
             try {
-                
-                const q = query(collection(db, "members"), orderBy("submittedAt", "desc"));
-                const querySnapshot = await getDocs(q);
-                
-                tableBody.innerHTML = ''; 
-                totalCountEl.innerText = querySnapshot.size;
-
-                if (querySnapshot.empty) {
-                    tableBody.innerHTML = `<tr><td colspan="5" class="px-8 py-12 text-center text-white/40">No records found.</td></tr>`;
-                    return;
-                }
-
-                querySnapshot.forEach((doc) => {
-                    const data = doc.data();
-                    
-                  
-                    const date = data.submittedAt ? data.submittedAt.toDate().toLocaleDateString('en-US', {
-                        year: 'numeric', month: 'short', day: 'numeric'
-                    }) : 'N/A';
-
-                  
-                    const volChips = data.volunteeringInterests?.map(v => `<span class="bg-white/10 text-[10px] px-2 py-1 rounded-md mr-1 mb-1 inline-block">${v}</span>`).join('') || 'None';
-                    const commChips = data.committeeInterests?.map(c => `<span class="bg-brand-gold/20 text-brand-gold text-[10px] px-2 py-1 rounded-md mr-1 mb-1 inline-block">${c}</span>`).join('') || 'None';
-
-                    const row = `
-                        <tr class="hover:bg-white/5 transition-colors group">
-                            <td class="px-8 py-6">
-                                <div class="font-black text-white text-base">${data.fullName}</div>
-                                <div class="text-brand-gold/60 text-xs font-bold uppercase tracking-wider">${data.profession || 'N/A'}</div>
-                            </td>
-                            <td class="px-8 py-6">
-                                <div class="flex flex-col gap-1">
-                                    <span class="text-white/80"><i class="far fa-envelope text-brand-gold mr-2 text-xs"></i>${data.email}</span>
-                                    <span class="text-white/80"><i class="fas fa-phone-alt text-brand-gold mr-2 text-xs"></i>${data.phone}</span>
-                                </div>
-                            </td>
-                            <td class="px-8 py-6 max-w-xs">
-                                <div class="flex flex-wrap">${volChips}</div>
-                            </td>
-                            <td class="px-8 py-6">
-                                <div class="flex flex-wrap">${commChips}</div>
-                            </td>
-                            <td class="px-8 py-6 text-right font-mono text-white/40 font-bold">
-                                ${date}
-                            </td>
-                        </tr>
-                    `;
-                    tableBody.innerHTML += row;
+                // Pending
+                const snapReview = await getDocs(query(collection(db, "members"), orderBy("submittedAt", "desc")));
+                document.getElementById('pendingCount').innerText = snapReview.size;
+                reviewBody.innerHTML = snapReview.empty ? '<tr><td colspan="4" class="p-10 text-center opacity-30">No requests</td></tr>' : '';
+                snapReview.forEach(docSnap => {
+                    reviewBody.innerHTML += renderRow(docSnap.id, docSnap.data(), true);
                 });
 
-            } catch (error) {
-                console.error("Error fetching members: ", error);
-                tableBody.innerHTML = `<tr><td colspan="5" class="px-8 py-12 text-center text-red-400">Error loading data. Please check Firebase Rules.</td></tr>`;
-            }
+                // Approved
+                const snapAppr = await getDocs(query(collection(db, "approved_members"), orderBy("approvedAt", "desc")));
+                document.getElementById('approvedCount').innerText = snapAppr.size;
+                approvedBody.innerHTML = snapAppr.empty ? '<tr><td colspan="4" class="p-10 text-center opacity-30">No members</td></tr>' : '';
+                snapAppr.forEach(docSnap => {
+                    const appDate = docSnap.data().approvedAt?.toDate().toLocaleDateString() || 'Recently';
+                    approvedBody.innerHTML += renderRow(docSnap.id, docSnap.data(), false, appDate);
+                });
+            } catch (e) { console.error(e); }
         }
 
- 
-        fetchMembers();
+function renderRow(id, data, isReview, dateInfo) {
+    // Increased household member name to 12px (text-xs) and DOB to 11px
+    const household = data.householdDetails?.map(m => 
+        `<div class="mb-2">
+            <b class="text-xs">${m.name}</b> <span class="text-[11px]">(${m.role})</span>
+            <div class="text-[11px] opacity-70">DOB: ${m.dob}</div>
+        </div>`
+    ).join('') || 'Individual';
+
+    const dataStr = encodeURIComponent(JSON.stringify(data));
+    return `
+        <tr class="member-row transition-all">
+            <td class="px-6 py-6">
+                <div class="font-black text-sm">${data.fullName}</div>
+                <div class="text-xs text-brand-gold/80 uppercase">DOB: ${data.dob}</div>
+            </td>
+            <td class="px-6 py-6">
+                <div class="text-sm font-medium">${data.email} | ${data.phone}</div>
+                <div class="text-xs opacity-60 italic mt-1">${data.address}</div>
+            </td>
+            <td class="px-6 py-6 align-top">
+                <div class="max-h-32 overflow-y-auto custom-scrollbar text-xs">${household}</div>
+            </td>
+            <td class="px-6 py-6 text-right">
+                ${isReview ? `
+                    <button onclick="approveMember('${id}', '${dataStr}')" class="bg-green-600 hover:bg-green-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold uppercase mr-1">Approve</button>
+                    <button onclick="rejectMember('${id}')" class="bg-red-600 hover:bg-red-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold uppercase">Reject</button>
+                ` : `<span class="font-mono text-xs opacity-60 font-bold">${dateInfo}</span>`}
+            </td>
+        </tr>`;
+}
     </script>
 </body>
 </html>
