@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources & Documents | NYTDC</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            deep: '#8D0E17', crimson: '#C71843', red: '#E5485B',
+                            soft: '#EC6A6A', salmon: '#F09173', orange: '#F5B577',
+                            gold: '#F9D889', pale: '#FCF6AA',
+                        }
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        html { scroll-behavior: smooth; }
+        
+        /* --- REUSED STYLES FROM INDEX --- */
+        .nav-entrance { animation: navSlideDown 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes navSlideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        .nav-transparent { background-color: transparent !important; border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important; }
+        .nav-scrolled {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #FCF6AA !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+        }
+        .glass-menu-pill {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 9999px;
+            padding: 0.5rem 1.5rem;
+        }
+        .nav-link { position: relative; transition: color 0.3s ease; }
+        .nav-transparent .nav-link, .nav-transparent .logo-text, .nav-transparent #mobile-menu-btn { color: white; }
+        .nav-scrolled .nav-link, .nav-scrolled .logo-text, .nav-scrolled #mobile-menu-btn { color: #8D0E17; }
+        .nav-link::after {
+            content: ''; position: absolute; width: 0; height: 2px;
+            bottom: -4px; left: 0; background-color: #F9D889; transition: width 0.3s ease;
+        }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.active::after { width: 100%; } /* Active state style */
+
+        /* --- NEW HERO STYLE FOR INNER PAGE --- */
+        .resources-hero {
+            position: relative;
+            height: 60vh; /* Shorter than home page */
+            background: linear-gradient(rgba(141, 14, 23, 0.8), rgba(141, 14, 23, 0.6)), 
+                        url('heroimage.png'); /* Using same image, or change to different one */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        /* --- DOCUMENT CARD STYLES --- */
+        .doc-card {
+            background: white;
+            border-radius: 1.5rem;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .doc-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(141, 14, 23, 0.1);
+            border-color: #F9D889;
+        }
+        .doc-icon-bg {
+            background: linear-gradient(135deg, #FFF 0%, #FFF5F5 100%);
+            transition: 0.4s;
+        }
+        .doc-card:hover .doc-icon-bg {
+            background: #8D0E17;
+        }
+        .doc-card:hover .doc-icon-i { color: #F9D889 !important; }
+
+        /* --- FOOTER STYLES (MATCHING INDEX) --- */
+        .footer-brand-bg {
+            background: linear-gradient(180deg, #8D0E17 0%, #700b12 100%);
+            border-top: 6px solid #F9D889;
+            position: relative;
+        }
+        .footer-brand-bg::before {
+            content: ''; position: absolute; inset: 0;
+            background-image: radial-gradient(circle at 2px 2px, rgba(249, 216, 137, 0.05) 1px, transparent 0);
+            background-size: 40px 40px; pointer-events: none;
+        }
+        .social-pill {
+            width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+            background: rgba(255, 255, 255, 0.05); border-radius: 12px; color: white; transition: all 0.3s ease;
+        }
+        .social-pill:hover { background: #F9D889; color: #8D0E17; transform: translateY(-5px); }
+
+        /* --- MOBILE MENU --- */
+        #mobile-menu {
+            transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+            transform: translateX(100%);
+        }
+        #mobile-menu.active { transform: translateX(0); }
+		 /* --- ENHANCED BRAND FOOTER --- */
+        .footer-brand-bg {
+            background: linear-gradient(180deg, #8D0E17 0%, #700b12 100%);
+            border-top: 6px solid #F9D889;
+            position: relative;
+        }
+
+        /* Decorative background pattern */
+        .footer-brand-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle at 2px 2px, rgba(249, 216, 137, 0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
+
+        .footer-column-title {
+            color: #F9D889;
+            font-size: 0.75rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-column-title::after {
+            content: '';
+            flex-grow: 1;
+            height: 1px;
+            background: linear-gradient(to right, rgba(249, 216, 137, 0.3), transparent);
+        }
+
+        .footer-link {
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .footer-link:hover {
+            color: #F9D889;
+            transform: translateX(8px);
+        }
+
+        .contact-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 12px 16px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(249, 216, 137, 0.3);
+        }
+
+        .newsletter-container {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid rgba(249, 216, 137, 0.1);
+        }
+
+        .newsletter-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-input:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #F9D889;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(249, 216, 137, 0.1);
+        }
+
+        .social-pill {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-pill:hover {
+            background: #F9D889;
+            color: #8D0E17;
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50 text-gray-900">
+
+    <nav id="main-nav" class="fixed top-0 left-0 w-full z-50 nav-transparent py-4 transition-all duration-300 nav-entrance">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="group flex items-center gap-3">
+                    <img src="logo.png" alt="Logo" class="h-10 w-auto transition-transform duration-300 group-hover:scale-110">
+                    <div class="flex items-center gap-1">
+                        <span class="logo-text font-black text-3xl tracking-tighter transition-all duration-300 group-hover:tracking-normal">
+                            NY<span class="text-brand-gold group-hover:text-brand-orange transition-colors duration-300">TDC</span>
+                        </span>
+                        <div class="w-1.5 h-1.5 rounded-full bg-brand-gold mt-4 group-hover:scale-150 transition-transform duration-300"></div>
+                    </div>
+                </a>
+                
+                <div class="hidden lg:flex items-center space-x-8 text-sm font-bold uppercase tracking-widest glass-menu-pill">
+                    <a href="index.html" class="nav-link relative">Home</a>
+                    <a href="about.html" class="nav-link relative">About</a>
+                    <a href="index.html#activities" class="nav-link relative">Activities</a>
+                    <a href="index.html#upcoming" class="nav-link relative">Events</a>
+                    <a href="resources.html" class="nav-link relative text-brand-gold active">Resources</a>
+                    <a href="contact.html" class="nav-link relative">Contact Us</a>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <a href="index.html#donate" class="hidden lg:block bg-brand-deep text-white px-6 py-2 rounded-full hover:bg-brand-crimson transition shadow-lg transform hover:-translate-y-1 font-bold">Donate</a>
+                    
+                    <button id="mobile-menu-btn" class="lg:hidden flex items-center justify-center p-2 focus:outline-none transition-colors duration-300">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="mobile-menu" class="fixed inset-0 bg-brand-deep z-[60] flex flex-col items-center justify-center space-y-8 text-xl font-black uppercase tracking-widest text-white">
+        <button id="close-menu-btn" class="absolute top-6 right-6 text-white text-3xl p-4">
+            <i class="fas fa-times"></i>
+        </button>
+        <a href="index.html" class="mobile-link hover:text-brand-gold transition-colors">Home</a>
+        <a href="about.html" class="mobile-link hover:text-brand-gold transition-colors">About</a>
+        <a href="index.html#activities" class="mobile-link hover:text-brand-gold transition-colors">Activities</a>
+		<a href="index.html#upcoming" class="nav-link relative">Events</a>
+        <a href="resources.html" class="text-brand-gold mobile-link">Resources</a>
+        <a href="contact.html" class="mobile-link hover:text-brand-gold transition-colors">Contact Us</a>
+        <a href="index.html#donate" class="bg-brand-gold text-brand-deep px-10 py-4 rounded-full font-black mt-4 block">Donate</a>
+    </div>
+
+    <section class="resources-hero">
+        <div class="relative z-10 px-4">
+            <div class="inline-block px-4 py-1 mb-4 rounded-full border border-brand-gold/30 bg-black/20 backdrop-blur-sm">
+                <span class="text-brand-gold text-xs font-bold uppercase tracking-[0.2em]">Transparency & Trust</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black text-white mb-4 drop-shadow-lg">
+                Official <span class="text-brand-gold">Resources</span>
+            </h1>
+            <p class="text-white/80 text-lg md:text-xl max-w-2xl mx-auto font-medium">
+                Access our governing documents, financial reports, and community guidelines.
+            </p>
+        </div>
+    </section>
+
+    <section class="py-20 container mx-auto px-6 -mt-20 relative z-20">
+        
+        <div class="mb-16">
+            <h3 class="text-2xl font-black text-brand-deep mb-8 flex items-center gap-3">
+                <i class="fas fa-balance-scale text-brand-gold"></i> Governance Documents
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <div class="doc-card p-8">
+                    <div class="flex items-start justify-between mb-6">
+                        <div class="doc-icon-bg w-16 h-16 rounded-2xl flex items-center justify-center border border-gray-100 shadow-sm">
+                            <i class="fas fa-file-contract text-3xl text-brand-deep doc-icon-i transition-colors"></i>
+                        </div>
+                        <span class="bg-green-100 text-green-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase">Active</span>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-800 mb-2">NYTDC Constitution</h4>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-8">The fundamental principles and established precedents according to which our council is governed.</p>
+                    
+                    <div class="flex gap-3 mt-auto">
+                        <button onclick="openPdfViewer('NYTDC - Constitution -Draft.pdf', 'Constitution')" class="flex-1 bg-brand-deep text-white py-3 rounded-xl font-bold text-sm hover:bg-brand-crimson transition shadow-lg">
+                            <i class="far fa-eye mr-2"></i> View
+                        </button>
+                        <a href="NYTDC - Constitution -Draft.pdf" download class="w-12 flex items-center justify-center border border-gray-200 rounded-xl text-gray-500 hover:border-brand-gold hover:text-brand-deep transition">
+                            <i class="fas fa-expand"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="doc-card p-8">
+                    <div class="flex items-start justify-between mb-6">
+                        <div class="doc-icon-bg w-16 h-16 rounded-2xl flex items-center justify-center border border-gray-100 shadow-sm">
+                            <i class="fas fa-gavel text-3xl text-brand-deep doc-icon-i transition-colors"></i>
+                        </div>
+                        <span class="bg-gray-100 text-gray-600 text-[10px] font-bold px-3 py-1 rounded-full uppercase">Updated 2025</span>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-800 mb-2">Official Bylaws</h4>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-8">Detailed rules and regulations enacted by the New York Tamil Development Council to provide a framework for its operation.</p>
+                    
+                    <div class="flex gap-3 mt-auto">
+                        <button onclick="openPdfViewer('NYTDC BYLAWS.pdf', 'Bylaws')" class="flex-1 bg-brand-deep text-white py-3 rounded-xl font-bold text-sm hover:bg-brand-crimson transition shadow-lg">
+                            <i class="far fa-eye mr-2"></i> View
+                        </button>
+                        <a href="NYTDC BYLAWS.pdf" download class="w-12 flex items-center justify-center border border-gray-200 rounded-xl text-gray-500 hover:border-brand-gold hover:text-brand-deep transition">
+                            <i class="fas fa-expand"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!--<div class="doc-card p-8">
+                    <div class="flex items-start justify-between mb-6">
+                        <div class="doc-icon-bg w-16 h-16 rounded-2xl flex items-center justify-center border border-gray-100 shadow-sm">
+                            <i class="fas fa-certificate text-3xl text-brand-deep doc-icon-i transition-colors"></i>
+                        </div>
+                        <span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase">Certified</span>
+                    </div>
+                    <h4 class="text-xl font-bold text-gray-800 mb-2">Non-Profit Status</h4>
+                    <p class="text-gray-500 text-sm leading-relaxed mb-8">Official documentation confirming our 501(c)(3) tax-exempt status for transparency with donors.</p>
+                    
+                    <div class="flex gap-3 mt-auto">
+                        <button onclick="openPdfViewer('501c3_status.pdf', 'Tax Exempt Status')" class="flex-1 bg-brand-deep text-white py-3 rounded-xl font-bold text-sm hover:bg-brand-crimson transition shadow-lg">
+                            <i class="far fa-eye mr-2"></i> View
+                        </button>
+                        <a href="#" class="w-12 flex items-center justify-center border border-gray-200 rounded-xl text-gray-500 hover:border-brand-gold hover:text-brand-deep transition">
+                            <i class="fas fa-expand"></i>
+                        </a>
+                    </div>
+                </div>-->
+
+            </div>
+        </div>
+
+        <div class="mb-16">
+            <h3 class="text-2xl font-black text-brand-deep mb-8 flex items-center gap-3">
+                <i class="fas fa-edit text-brand-gold"></i> Forms & Applications
+            </h3>
+             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="doc-card p-8 border-l-4 border-l-brand-gold">
+                    <h4 class="text-lg font-bold text-gray-800 mb-2">Membership Form</h4>
+                    <p class="text-gray-500 text-sm mb-4">Official application for new members.</p>
+                    <a href="https://docs.google.com/forms/d/120w-gS8r3OeXrGlC83yjOhy7TuLmz72ISQFoa1S-Lqs/viewform" target="_blank" class="text-brand-crimson font-bold text-sm hover:underline">Open Form <i class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+                 <div class="doc-card p-8 border-l-4 border-l-brand-gold">
+                    <h4 class="text-lg font-bold text-gray-800 mb-2">Volunteer Registration</h4>
+                    <p class="text-gray-500 text-sm mb-4">Sign up to help with upcoming events.</p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfoYFg0H7UdZCsh6F3mJp4EZsv6a_BvG5LmCKkMCW0_vuaOxg/viewform" target="_blank" class="text-brand-crimson font-bold text-sm hover:underline">Open Form <i class="fas fa-external-link-alt ml-1"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <footer class="footer-brand-bg pt-24 pb-12 text-white overflow-hidden">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-20">
+                
+                <div class="lg:col-span-4">
+                    <div class="flex items-center gap-4 mb-8">
+                        <img src="logo.png" alt="NYTDC Logo" class="h-36 w-auto">
+                        <div>
+                            <h2 class="text-3xl font-black tracking-tighter leading-none">NY<span class="text-brand-gold">TDC</span></h2>
+                            <p class="text-brand-gold/60 text-[10px] uppercase tracking-[0.3em] font-bold mt-1">New York Tamil Center</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-3">
+                        <a href="https://www.facebook.com/NYTDCOfficial" class="social-pill" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/nytdcofficial" class="social-pill" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.tiktok.com/@nytdcofficial" class="social-pill" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                        <!--<a href="#" class="social-pill" aria-label="YouTube"><i class="fab fa-youtube"></i></a>-->
+						<a href="https://www.linkedin.com/company/nytdc" class="social-pill" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2">
+                    <h4 class="footer-column-title">Explore</h4>
+                    <ul class="space-y-4 text-sm font-semibold">
+                        <li><a href="about.html" class="footer-link">About Us</a></li>
+                        <li><a href="#roadmap" class="footer-link">2033 Roadmap</a></li>
+                        <li><a href="#activities" class="footer-link">Our Activities</a></li>
+                        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfoYFg0H7UdZCsh6F3mJp4EZsv6a_BvG5LmCKkMCW0_vuaOxg/viewform" class="footer-link">Volunteer</a></li>
+						<li><a href="resources.html" class="footer-link">Resources</a></li>
+                    </ul>
+                </div>
+
+                <div class="lg:col-span-3">
+                    <h4 class="footer-column-title">Get In Touch</h4>
+                    <div class="space-y-4">
+                        <div class="contact-item flex items-center gap-4">
+                            <div class="text-brand-gold"><i class="fas fa-map-marker-alt"></i></div>
+                            <div class="text-xs">
+                                <p class="text-white font-bold">Location</p>
+                                <p class="text-white/50">New York, NY 10301</p>
+                            </div>
+                        </div>
+                        <div class="contact-item flex items-center gap-4">
+                            <div class="text-brand-gold"><i class="fas fa-envelope-open-text"></i></div>
+                            <div class="text-xs">
+                                <p class="text-white font-bold">Email Us</p>
+                                <a href="mailto:tamildevelopmentcouncil@gmail.com" class="text-white/50 hover:text-brand-gold transition-colors">tamildevelopmentcouncil@gmail.com</a>
+                            </div>
+                        </div>
+                        <div class="contact-item flex items-center gap-4">
+                            <div class="text-brand-gold"><i class="fas fa-phone-alt"></i></div>
+                            <div class="text-xs">
+                                <p class="text-white font-bold">Contact</p>
+                                <p class="text-white/50">001 xxx xxx xxx</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-3">
+                    <!--<div class="newsletter-container">
+                        <h4 class="text-brand-gold font-black uppercase tracking-widest text-xs mb-4">Mailing List</h4>
+                        <p class="text-white/60 text-xs mb-6 leading-relaxed">Stay updated with our construction progress and community events.</p>
+                        <form class="space-y-3">
+                            <input type="email" placeholder="Email address" class="newsletter-input w-full px-5 py-4 rounded-xl text-xs">
+                            <button class="w-full bg-brand-gold hover:bg-white text-brand-deep font-black py-4 rounded-xl transition-all duration-300 uppercase tracking-[0.2em] text-[10px]">
+                                Join Now
+                            </button>
+                        </form>
+                    </div>
+					<div class="lg:col-span-3">
+					<h4 class="footer-column-title">Legal Documents</h4>
+					<div class="space-y-4">
+						<div class="contact-item flex items-center justify-between group cursor-pointer" onclick="openPdfModal('Laws', 'NYTDC - Constitution -Draft.pdf')">
+							<div class="flex items-center gap-4">
+								<div class="text-brand-gold text-2xl group-hover:scale-110 transition-transform">
+									<i class="fas fa-file-pdf"></i>
+								</div>
+								<div class="text-xs">
+									<p class="text-white font-bold">NYTDC Constitution</p>
+									<p class="text-white/50 uppercase tracking-tighter">Our Constitution</p>
+								</div>
+							</div>
+							<i class="fas fa-external-link-alt text-white/20 text-xs"></i>
+						</div>
+
+						<div class="contact-item flex items-center justify-between group cursor-pointer" onclick="openPdfModal('Accounts', 'NYTDC BYLAWS.pdf')">
+							<div class="flex items-center gap-4">
+								<div class="text-brand-gold text-2xl group-hover:scale-110 transition-transform">
+									<i class="fas fa-file-invoice-dollar"></i>
+								</div>
+								<div class="text-xs">
+									<p class="text-white font-bold">NYTDC Bylaws</p>
+									<p class="text-white/50 uppercase tracking-tighter">Our Bylaws</p>
+								</div>
+							</div>
+							<i class="fas fa-external-link-alt text-white/20 text-xs"></i>
+						</div>
+					</div>
+				</div>
+
+				<div id="pdfModal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
+					<div class="bg-white w-full max-w-4xl h-[80vh] rounded-3xl overflow-hidden flex flex-col">
+						<div class="p-4 border-b flex justify-between items-center bg-gray-50">
+							<h3 id="modalTitle" class="font-black text-brand-deep uppercase tracking-widest text-sm">Document</h3>
+							<div class="flex gap-4">
+								<a id="downloadBtn" 
+								   href="#" 
+								   target="_blank" 
+								   class="bg-brand-gold text-brand-deep px-4 py-2 rounded-lg text-xs font-bold hover:bg-brand-deep hover:text-white transition-all">
+									<i class="fas fa-expand mr-2"></i>Full Screen
+								</a>
+								<button onclick="closePdfModal()" class="text-gray-400 hover:text-brand-crimson text-xl px-2">&times;</button>
+							</div>
+						</div>
+						<div class="flex-grow">
+							<iframe id="pdfFrame" src="" class="w-full h-full border-none"></iframe>
+						</div>
+					</div>
+				</div>-->
+				<p align='justify' class="text-white/60 text-sm leading-relaxed mb-8 max-w-sm">
+                        As a <u><a href='https://www.nycompanyregistry.com/companies/new-york-tamil-development-council-inc/'>registered 501(c)(3) non-profit </a></u>, we are dedicated to building a permanent home for Tamil culture, arts, and education in the heart of New York.
+                    </p>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex items-center gap-4">
+                    <span class="px-3 py-1 bg-white/5 rounded-md text-[9px] font-bold text-brand-gold border border-brand-gold/20 uppercase tracking-widest">501(c)(3) Certified</span>
+                    <p class="text-[10px] uppercase tracking-widest font-bold text-white/30">© 2026 New York Tamil Community</p>
+                </div>
+                <!--<div class="flex gap-8 text-[10px] uppercase tracking-[0.2em] font-bold text-white/40">
+                    <a href="#" class="hover:text-brand-gold transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-brand-gold transition-colors">Terms</a>
+                    <a href="#" class="hover:text-brand-gold transition-colors">Accessibility</a>
+                </div>-->
+				
+            </div>
+        </div>
+    </footer>
+
+    <div id="pdf-modal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white w-full max-w-5xl h-[85vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl transform scale-95 transition-transform duration-300" id="pdf-modal-content">
+            <div class="p-4 border-b flex justify-between items-center bg-gray-50">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-file-pdf text-brand-deep text-xl"></i>
+                    <h3 id="pdf-title" class="font-black text-brand-deep uppercase tracking-widest text-sm">Document Viewer</h3>
+                </div>
+                <div class="flex gap-2">
+                    <a id="pdf-download-btn" href="#" download class="px-4 py-2 bg-gray-200 rounded-lg text-xs font-bold text-gray-700 hover:bg-brand-gold hover:text-brand-deep transition">
+                        View Full Screen
+                    </a>
+                    <button onclick="closePdfViewer()" class="text-gray-400 hover:text-brand-crimson text-2xl px-2">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="flex-grow bg-gray-100 relative">
+                <iframe id="pdf-frame" src="" class="w-full h-full border-none"></iframe>
+                <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none -z-10">
+                   <p class="text-gray-400">Loading Document...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Navigation Logic (Same as Index) ---
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('main-nav');
+            if (window.scrollY > 50) nav.classList.replace('nav-transparent', 'nav-scrolled');
+            else nav.classList.replace('nav-scrolled', 'nav-transparent');
+        });
+
+        // --- Mobile Menu Logic ---
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const closeBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        if(menuBtn) menuBtn.addEventListener('click', toggleMenu);
+        if(closeBtn) closeBtn.addEventListener('click', toggleMenu);
+
+        // --- PDF Modal Logic ---
+        const pdfModal = document.getElementById('pdf-modal');
+        const pdfModalContent = document.getElementById('pdf-modal-content');
+        const pdfFrame = document.getElementById('pdf-frame');
+        const pdfTitle = document.getElementById('pdf-title');
+        const pdfDownload = document.getElementById('pdf-download-btn');
+
+        function openPdfViewer(url, title) {
+            // Set content
+            pdfFrame.src = url;
+            pdfTitle.innerText = title || "Document";
+            pdfDownload.href = url;
+
+            // Show modal with animation
+            pdfModal.classList.remove('hidden');
+            // Small timeout to allow display:block to apply before changing opacity
+            setTimeout(() => {
+                pdfModal.classList.remove('opacity-0');
+                pdfModalContent.classList.remove('scale-95');
+                pdfModalContent.classList.add('scale-100');
+            }, 10);
+            
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePdfViewer() {
+            // Hide animation
+            pdfModal.classList.add('opacity-0');
+            pdfModalContent.classList.remove('scale-100');
+            pdfModalContent.classList.add('scale-95');
+            
+            setTimeout(() => {
+                pdfModal.classList.add('hidden');
+                pdfFrame.src = ""; // Stop loading
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        // Close on click outside
+        pdfModal.addEventListener('click', (e) => {
+            if (e.target === pdfModal) closePdfViewer();
+        });
+        
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closePdfViewer();
+        });
+    </script>
+</body>
+</html>
