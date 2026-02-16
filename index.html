@@ -1354,9 +1354,10 @@
                         </p>
                         
                         <div class="flex flex-col sm:flex-row gap-4 opacity-0 transition-all duration-700 delay-600 transform translate-y-4">
-                            <a href="#" class="bg-white/10 backdrop-blur-md border border-white/30 px-10 py-5 rounded-full font-bold text-center hover:bg-white/20 transition-all">
-                              Donate via Zelle
-                            </a>
+                            <button onclick="openZelleModal()" class="w-full bg-white text-[#6d1ed4] border-2 border-[#6d1ed4] py-4 rounded-2xl font-black flex items-center justify-center gap-3 hover:bg-[#6d1ed4] hover:text-white transition-all duration-300">
+    <i class="fas fa-university"></i>
+    Donate via Zelle
+</button>
 							<a href="https://www.paypal.com/donate" target="_blank" class="paypal-btn px-10 py-5 rounded-full font-black text-brand-deep text-center flex items-center justify-center gap-3 shadow-2xl transition-all hover:scale-105">
                                 <i class="fab fa-paypal text-xl"></i>
                                 Donate via PayPal
@@ -1627,7 +1628,28 @@
             1 / 3
         </div>
     </div>
+	<div id="zelleModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+				<div class="bg-white rounded-[2rem] max-w-sm w-full p-8 text-center shadow-2xl transform transition-all">
+					<div class="flex justify-between items-center mb-6">
+						<h3 class="text-2xl font-black text-brand-deep">Donate via Zelle</h3>
+						<button onclick="closeZelleModal()" class="text-gray-400 hover:text-brand-deep transition-colors">
+							<i class="fas fa-times text-xl"></i>
+						</button>
+					</div>
+					
+					<div class="bg-gray-50 p-4 rounded-2xl mb-6 border-2 border-dashed border-brand-gold/30">
+						<img src="zelle-qr.png" alt="Zelle QR Code" class="w-full h-auto rounded-lg shadow-sm">
+					</div>
 
+					<div class="space-y-3">
+						<p class="text-gray-600 font-medium">Scan to donate to: NYTDC</p>
+					</div>
+
+					<button onclick="closeZelleModal()" class="mt-8 w-full bg-brand-deep text-white py-3 rounded-full font-bold hover:bg-brand-crimson transition shadow-lg">
+						Done
+					</button>
+				</div>
+			</div>
     <script>
         // Mobile Menu Logic
         const menuBtn = document.getElementById('mobile-menu-btn');
@@ -1824,7 +1846,27 @@
 				closePdfModal();
 			}
 		}
+		
+		function openZelleModal() {
+    const modal = document.getElementById('zelleModal');
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden'; // Prevents background scrolling
+}
+
+function closeZelleModal() {
+    const modal = document.getElementById('zelleModal');
+    modal.classList.add('hidden');
+    document.body.style.overflow = 'auto'; // Restores scrolling
+}
+
+// Close the modal if the user clicks the dark background area
+window.addEventListener('click', function(event) {
+    const modal = document.getElementById('zelleModal');
+    if (event.target === modal) {
+        closeZelleModal();
+    }
+});
     </script>
-</body>
+	</body>
 
 </html>
